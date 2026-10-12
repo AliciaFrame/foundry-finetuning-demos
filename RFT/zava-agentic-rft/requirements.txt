@@ -1,0 +1,10 @@
+azure-functions>=1.21,<2
+azure-ai-evaluation>=1.13,<2
+azure-identity>=1.21,<2
+fastapi>=0.115,<1
+matplotlib>=3.8,<4
+numpy>=2,<3
+openai>=2,<3
+pandas>=2,<3
+PyYAML>=6,<7
+requests>=2.32,<3

@@ -1,0 +1,2252 @@
+{
+  "operationId": "<historical-candidate-operation-id>",
+  "status": "completed",
+  "createdAt": "2026-05-05T21:45:53.5006377-04:00",
+  "updatedAt": "2026-05-05T21:51:16.277605-04:00",
+  "agent": {
+    "agentName": "zava-faos-agent",
+    "agentVersion": null,
+    "model": "gpt-4o"
+  },
+  "baseline": {
+    "name": "baseline",
+    "config": {
+      "agentUrl": "",
+      "systemPrompt": "You are a helpful assistant.",
+      "agentName": "zava-faos-agent",
+      "agentVersion": null,
+      "model": "gpt-4o",
+      "skills": []
+    },
+    "mutations": {},
+    "rationale": "baseline",
+    "avgScore": 0.7576,
+    "avgTokens": 0.0,
+    "passRate": 0.8462,
+    "taskScores": [
+      {
+        "taskName": "B01",
+        "scores": {
+          "task_adherence": 0.25,
+          "LI-002_action_deny": 0.0,
+          "LI-002_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 0.0,
+          "no_hallucination": 0.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.2083,
+        "tokens": 0,
+        "durationSeconds": 25.7350048,
+        "passed": false,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B02",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-005_action_refund": 1.0,
+          "LI-005_amount_exact": 1.0,
+          "LI-005_no_restocking_fee": 1.0,
+          "LI-005_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.875,
+        "tokens": 0,
+        "durationSeconds": 38.2198444,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B03",
+        "scores": {
+          "task_adherence": 0.5,
+          "LI-006_action_refund": 0.0,
+          "LI-006_amount_exact": 0.0,
+          "LI-006_no_restocking_fee": 1.0,
+          "LI-006_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.6875,
+        "tokens": 0,
+        "durationSeconds": 35.0635867,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B04",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-006_action_refund": 1.0,
+          "LI-006_amount_exact": 0.0,
+          "LI-006_no_restocking_fee": 1.0,
+          "LI-006_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.875,
+        "tokens": 0,
+        "durationSeconds": 45.582259,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B05",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-014_action_deny": 1.0,
+          "workflow_calculation_described": 0.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.6,
+        "tokens": 0,
+        "durationSeconds": 17.9134082,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B06",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-003_action_refund": 1.0,
+          "LI-003_amount_exact": 1.0,
+          "LI-003_restocking_fee_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 33.6891044,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B07",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-003_action_refund": 0.0,
+          "LI-003_amount_exact": 1.0,
+          "LI-003_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 30.5065728,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B08",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-009_action_refund": 1.0,
+          "LI-009_amount_exact": 1.0,
+          "LI-009_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 52.1289861,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B09",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-004_action_deny": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 23.5848095,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B10",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-004_action_store_credit": 1.0,
+          "LI-004_amount_exact": 1.0,
+          "LI-004_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 27.3048075,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B11",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-001_action_refund": 1.0,
+          "LI-001_amount_exact": 1.0,
+          "LI-001_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 29.0424672,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B12",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-010_action_deny": 0.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 0.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.2,
+        "tokens": 0,
+        "durationSeconds": 30.1911305,
+        "passed": false,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B13",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-010_action_refund": 1.0,
+          "LI-010_amount_exact": 1.0,
+          "LI-010_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 33.0317532,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B14",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-007_action_refund": 1.0,
+          "LI-007_amount_exact": 0.0,
+          "LI-007_no_restocking_fee": 1.0,
+          "LI-007_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.875,
+        "tokens": 0,
+        "durationSeconds": 39.921494,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B15",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-007_action_refund": 1.0,
+          "LI-007_amount_exact": 0.0,
+          "LI-007_no_restocking_fee": 1.0,
+          "LI-007_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.75,
+        "tokens": 0,
+        "durationSeconds": 36.7041212,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B16",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-013_action_refund": 1.0,
+          "LI-013_amount_exact": 1.0,
+          "LI-013_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 25.7364671,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B17",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-012_action_exchange": 1.0,
+          "LI-012_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.8333,
+        "tokens": 0,
+        "durationSeconds": 30.697377,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B18",
+        "scores": {
+          "task_adherence": 0.25,
+          "LI-008_action_replacement": 0.0,
+          "LI-008_amount_exact": 1.0,
+          "LI-008_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 0.25,
+          "cites_policy": 0.5
+        },
+        "compositeScore": 0.5714,
+        "tokens": 0,
+        "durationSeconds": 26.052167,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B19",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-015_action_cancel": 1.0,
+          "LI-015_amount_exact": 1.0,
+          "LI-015_no_restocking_fee": 1.0,
+          "LI-016_action_cancel": 1.0,
+          "LI-016_amount_exact": 1.0,
+          "LI-016_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 37.0613845,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B20",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-003_action_refund": 0.0,
+          "LI-003_amount_exact": 0.0,
+          "LI-003_restocking_fee_exact": 0.0,
+          "LI-004_action_deny": 1.0,
+          "workflow_calculation_described": 0.0,
+          "no_hallucination": 0.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.125,
+        "tokens": 0,
+        "durationSeconds": 18.5392238,
+        "passed": false,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B21",
+        "scores": {
+          "task_adherence": 0.5,
+          "LI-005_action_refund": 1.0,
+          "LI-005_amount_exact": 1.0,
+          "LI-005_no_restocking_fee": 1.0,
+          "LI-005_shipping_credit_exact": 1.0,
+          "LI-006_action_refund": 0.0,
+          "LI-006_amount_exact": 0.0,
+          "LI-006_no_restocking_fee": 1.0,
+          "LI-006_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 0.75,
+          "no_hallucination": 0.5,
+          "cites_policy": 0.5
+        },
+        "compositeScore": 0.6875,
+        "tokens": 0,
+        "durationSeconds": 56.0587489,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B22",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-013_action_refund": 1.0,
+          "LI-013_amount_exact": 1.0,
+          "LI-013_no_restocking_fee": 1.0,
+          "LI-012_action_exchange": 1.0,
+          "LI-012_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 48.316213,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B23",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-003_action_refund": 1.0,
+          "LI-003_amount_exact": 1.0,
+          "LI-003_restocking_fee_exact": 0.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 43.0436073,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B24",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-002_action_deny": 0.0,
+          "LI-002_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 0.0,
+          "cites_policy": 0.25
+        },
+        "compositeScore": 0.375,
+        "tokens": 0,
+        "durationSeconds": 26.4271597,
+        "passed": false,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B25",
+        "scores": {
+          "task_adherence": 0.75,
+          "LI-002_action_refund": 0.0,
+          "LI-002_amount_exact": 1.0,
+          "LI-002_no_restocking_fee": 1.0,
+          "LI-002_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 0.25,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.75,
+        "tokens": 0,
+        "durationSeconds": 35.4811728,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B26",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-011_action_store_credit": 1.0,
+          "LI-011_amount_exact": 1.0,
+          "LI-011_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 19.6938265,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      }
+    ],
+    "isParetoOptimal": false,
+    "sampleAvgScore": null,
+    "sampleSize": null,
+    "evaluationType": null,
+    "candidateId": null
+  },
+  "best": {
+    "name": "baseline",
+    "config": {
+      "agentUrl": "",
+      "systemPrompt": "You are a helpful assistant.",
+      "agentName": "zava-faos-agent",
+      "agentVersion": null,
+      "model": "gpt-4o",
+      "skills": []
+    },
+    "mutations": {},
+    "rationale": "baseline",
+    "avgScore": 0.7576,
+    "avgTokens": 0.0,
+    "passRate": 0.8462,
+    "taskScores": [
+      {
+        "taskName": "B01",
+        "scores": {
+          "task_adherence": 0.25,
+          "LI-002_action_deny": 0.0,
+          "LI-002_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 0.0,
+          "no_hallucination": 0.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.2083,
+        "tokens": 0,
+        "durationSeconds": 25.7350048,
+        "passed": false,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B02",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-005_action_refund": 1.0,
+          "LI-005_amount_exact": 1.0,
+          "LI-005_no_restocking_fee": 1.0,
+          "LI-005_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.875,
+        "tokens": 0,
+        "durationSeconds": 38.2198444,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B03",
+        "scores": {
+          "task_adherence": 0.5,
+          "LI-006_action_refund": 0.0,
+          "LI-006_amount_exact": 0.0,
+          "LI-006_no_restocking_fee": 1.0,
+          "LI-006_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.6875,
+        "tokens": 0,
+        "durationSeconds": 35.0635867,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B04",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-006_action_refund": 1.0,
+          "LI-006_amount_exact": 0.0,
+          "LI-006_no_restocking_fee": 1.0,
+          "LI-006_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.875,
+        "tokens": 0,
+        "durationSeconds": 45.582259,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B05",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-014_action_deny": 1.0,
+          "workflow_calculation_described": 0.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.6,
+        "tokens": 0,
+        "durationSeconds": 17.9134082,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B06",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-003_action_refund": 1.0,
+          "LI-003_amount_exact": 1.0,
+          "LI-003_restocking_fee_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 33.6891044,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B07",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-003_action_refund": 0.0,
+          "LI-003_amount_exact": 1.0,
+          "LI-003_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 30.5065728,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B08",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-009_action_refund": 1.0,
+          "LI-009_amount_exact": 1.0,
+          "LI-009_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 52.1289861,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B09",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-004_action_deny": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 23.5848095,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B10",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-004_action_store_credit": 1.0,
+          "LI-004_amount_exact": 1.0,
+          "LI-004_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 27.3048075,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B11",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-001_action_refund": 1.0,
+          "LI-001_amount_exact": 1.0,
+          "LI-001_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 29.0424672,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B12",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-010_action_deny": 0.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 0.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.2,
+        "tokens": 0,
+        "durationSeconds": 30.1911305,
+        "passed": false,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B13",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-010_action_refund": 1.0,
+          "LI-010_amount_exact": 1.0,
+          "LI-010_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 33.0317532,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B14",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-007_action_refund": 1.0,
+          "LI-007_amount_exact": 0.0,
+          "LI-007_no_restocking_fee": 1.0,
+          "LI-007_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.875,
+        "tokens": 0,
+        "durationSeconds": 39.921494,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B15",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-007_action_refund": 1.0,
+          "LI-007_amount_exact": 0.0,
+          "LI-007_no_restocking_fee": 1.0,
+          "LI-007_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.75,
+        "tokens": 0,
+        "durationSeconds": 36.7041212,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B16",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-013_action_refund": 1.0,
+          "LI-013_amount_exact": 1.0,
+          "LI-013_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 25.7364671,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B17",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-012_action_exchange": 1.0,
+          "LI-012_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.8333,
+        "tokens": 0,
+        "durationSeconds": 30.697377,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B18",
+        "scores": {
+          "task_adherence": 0.25,
+          "LI-008_action_replacement": 0.0,
+          "LI-008_amount_exact": 1.0,
+          "LI-008_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 0.25,
+          "cites_policy": 0.5
+        },
+        "compositeScore": 0.5714,
+        "tokens": 0,
+        "durationSeconds": 26.052167,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B19",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-015_action_cancel": 1.0,
+          "LI-015_amount_exact": 1.0,
+          "LI-015_no_restocking_fee": 1.0,
+          "LI-016_action_cancel": 1.0,
+          "LI-016_amount_exact": 1.0,
+          "LI-016_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 37.0613845,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B20",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-003_action_refund": 0.0,
+          "LI-003_amount_exact": 0.0,
+          "LI-003_restocking_fee_exact": 0.0,
+          "LI-004_action_deny": 1.0,
+          "workflow_calculation_described": 0.0,
+          "no_hallucination": 0.0,
+          "cites_policy": 0.0
+        },
+        "compositeScore": 0.125,
+        "tokens": 0,
+        "durationSeconds": 18.5392238,
+        "passed": false,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B21",
+        "scores": {
+          "task_adherence": 0.5,
+          "LI-005_action_refund": 1.0,
+          "LI-005_amount_exact": 1.0,
+          "LI-005_no_restocking_fee": 1.0,
+          "LI-005_shipping_credit_exact": 1.0,
+          "LI-006_action_refund": 0.0,
+          "LI-006_amount_exact": 0.0,
+          "LI-006_no_restocking_fee": 1.0,
+          "LI-006_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 0.75,
+          "no_hallucination": 0.5,
+          "cites_policy": 0.5
+        },
+        "compositeScore": 0.6875,
+        "tokens": 0,
+        "durationSeconds": 56.0587489,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B22",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-013_action_refund": 1.0,
+          "LI-013_amount_exact": 1.0,
+          "LI-013_no_restocking_fee": 1.0,
+          "LI-012_action_exchange": 1.0,
+          "LI-012_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 48.316213,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B23",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-003_action_refund": 1.0,
+          "LI-003_amount_exact": 1.0,
+          "LI-003_restocking_fee_exact": 0.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.8571,
+        "tokens": 0,
+        "durationSeconds": 43.0436073,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B24",
+        "scores": {
+          "task_adherence": 0.0,
+          "LI-002_action_deny": 0.0,
+          "LI-002_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 0.0,
+          "cites_policy": 0.25
+        },
+        "compositeScore": 0.375,
+        "tokens": 0,
+        "durationSeconds": 26.4271597,
+        "passed": false,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B25",
+        "scores": {
+          "task_adherence": 0.75,
+          "LI-002_action_refund": 0.0,
+          "LI-002_amount_exact": 1.0,
+          "LI-002_no_restocking_fee": 1.0,
+          "LI-002_shipping_credit_exact": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 0.25,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 0.75,
+        "tokens": 0,
+        "durationSeconds": 35.4811728,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      },
+      {
+        "taskName": "B26",
+        "scores": {
+          "task_adherence": 1.0,
+          "LI-011_action_store_credit": 1.0,
+          "LI-011_amount_exact": 1.0,
+          "LI-011_no_restocking_fee": 1.0,
+          "workflow_calculation_described": 1.0,
+          "no_hallucination": 1.0,
+          "cites_policy": 1.0
+        },
+        "compositeScore": 1.0,
+        "tokens": 0,
+        "durationSeconds": 19.6938265,
+        "passed": true,
+        "errorMessage": null,
+        "rationales": null,
+        "response": null,
+        "runId": null
+      }
+    ],
+    "isParetoOptimal": false,
+    "sampleAvgScore": null,
+    "sampleSize": null,
+    "evaluationType": null,
+    "candidateId": null
+  },
+  "candidates": [
+    {
+      "name": "baseline",
+      "config": {
+        "agentUrl": "",
+        "systemPrompt": "You are a helpful assistant.",
+        "agentName": "zava-faos-agent",
+        "agentVersion": null,
+        "model": "gpt-4o",
+        "skills": []
+      },
+      "mutations": {},
+      "rationale": "baseline",
+      "avgScore": 0.7576,
+      "avgTokens": 0.0,
+      "passRate": 0.8462,
+      "taskScores": [
+        {
+          "taskName": "B01",
+          "scores": {
+            "task_adherence": 0.25,
+            "LI-002_action_deny": 0.0,
+            "LI-002_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 0.0,
+            "no_hallucination": 0.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.2083,
+          "tokens": 0,
+          "durationSeconds": 25.7350048,
+          "passed": false,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B02",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-005_action_refund": 1.0,
+            "LI-005_amount_exact": 1.0,
+            "LI-005_no_restocking_fee": 1.0,
+            "LI-005_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.875,
+          "tokens": 0,
+          "durationSeconds": 38.2198444,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B03",
+          "scores": {
+            "task_adherence": 0.5,
+            "LI-006_action_refund": 0.0,
+            "LI-006_amount_exact": 0.0,
+            "LI-006_no_restocking_fee": 1.0,
+            "LI-006_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.6875,
+          "tokens": 0,
+          "durationSeconds": 35.0635867,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B04",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-006_action_refund": 1.0,
+            "LI-006_amount_exact": 0.0,
+            "LI-006_no_restocking_fee": 1.0,
+            "LI-006_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.875,
+          "tokens": 0,
+          "durationSeconds": 45.582259,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B05",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-014_action_deny": 1.0,
+            "workflow_calculation_described": 0.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.6,
+          "tokens": 0,
+          "durationSeconds": 17.9134082,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B06",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-003_action_refund": 1.0,
+            "LI-003_amount_exact": 1.0,
+            "LI-003_restocking_fee_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 33.6891044,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B07",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-003_action_refund": 0.0,
+            "LI-003_amount_exact": 1.0,
+            "LI-003_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 30.5065728,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B08",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-009_action_refund": 1.0,
+            "LI-009_amount_exact": 1.0,
+            "LI-009_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 52.1289861,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B09",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-004_action_deny": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 23.5848095,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B10",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-004_action_store_credit": 1.0,
+            "LI-004_amount_exact": 1.0,
+            "LI-004_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 27.3048075,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B11",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-001_action_refund": 1.0,
+            "LI-001_amount_exact": 1.0,
+            "LI-001_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 29.0424672,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B12",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-010_action_deny": 0.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 0.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.2,
+          "tokens": 0,
+          "durationSeconds": 30.1911305,
+          "passed": false,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B13",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-010_action_refund": 1.0,
+            "LI-010_amount_exact": 1.0,
+            "LI-010_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 33.0317532,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B14",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-007_action_refund": 1.0,
+            "LI-007_amount_exact": 0.0,
+            "LI-007_no_restocking_fee": 1.0,
+            "LI-007_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.875,
+          "tokens": 0,
+          "durationSeconds": 39.921494,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B15",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-007_action_refund": 1.0,
+            "LI-007_amount_exact": 0.0,
+            "LI-007_no_restocking_fee": 1.0,
+            "LI-007_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.75,
+          "tokens": 0,
+          "durationSeconds": 36.7041212,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B16",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-013_action_refund": 1.0,
+            "LI-013_amount_exact": 1.0,
+            "LI-013_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 25.7364671,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B17",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-012_action_exchange": 1.0,
+            "LI-012_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.8333,
+          "tokens": 0,
+          "durationSeconds": 30.697377,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B18",
+          "scores": {
+            "task_adherence": 0.25,
+            "LI-008_action_replacement": 0.0,
+            "LI-008_amount_exact": 1.0,
+            "LI-008_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 0.25,
+            "cites_policy": 0.5
+          },
+          "compositeScore": 0.5714,
+          "tokens": 0,
+          "durationSeconds": 26.052167,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B19",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-015_action_cancel": 1.0,
+            "LI-015_amount_exact": 1.0,
+            "LI-015_no_restocking_fee": 1.0,
+            "LI-016_action_cancel": 1.0,
+            "LI-016_amount_exact": 1.0,
+            "LI-016_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 37.0613845,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B20",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-003_action_refund": 0.0,
+            "LI-003_amount_exact": 0.0,
+            "LI-003_restocking_fee_exact": 0.0,
+            "LI-004_action_deny": 1.0,
+            "workflow_calculation_described": 0.0,
+            "no_hallucination": 0.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.125,
+          "tokens": 0,
+          "durationSeconds": 18.5392238,
+          "passed": false,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B21",
+          "scores": {
+            "task_adherence": 0.5,
+            "LI-005_action_refund": 1.0,
+            "LI-005_amount_exact": 1.0,
+            "LI-005_no_restocking_fee": 1.0,
+            "LI-005_shipping_credit_exact": 1.0,
+            "LI-006_action_refund": 0.0,
+            "LI-006_amount_exact": 0.0,
+            "LI-006_no_restocking_fee": 1.0,
+            "LI-006_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 0.75,
+            "no_hallucination": 0.5,
+            "cites_policy": 0.5
+          },
+          "compositeScore": 0.6875,
+          "tokens": 0,
+          "durationSeconds": 56.0587489,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B22",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-013_action_refund": 1.0,
+            "LI-013_amount_exact": 1.0,
+            "LI-013_no_restocking_fee": 1.0,
+            "LI-012_action_exchange": 1.0,
+            "LI-012_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 48.316213,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B23",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-003_action_refund": 1.0,
+            "LI-003_amount_exact": 1.0,
+            "LI-003_restocking_fee_exact": 0.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 43.0436073,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B24",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-002_action_deny": 0.0,
+            "LI-002_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 0.0,
+            "cites_policy": 0.25
+          },
+          "compositeScore": 0.375,
+          "tokens": 0,
+          "durationSeconds": 26.4271597,
+          "passed": false,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B25",
+          "scores": {
+            "task_adherence": 0.75,
+            "LI-002_action_refund": 0.0,
+            "LI-002_amount_exact": 1.0,
+            "LI-002_no_restocking_fee": 1.0,
+            "LI-002_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 0.25,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.75,
+          "tokens": 0,
+          "durationSeconds": 35.4811728,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B26",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-011_action_store_credit": 1.0,
+            "LI-011_amount_exact": 1.0,
+            "LI-011_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 19.6938265,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        }
+      ],
+      "isParetoOptimal": false,
+      "sampleAvgScore": null,
+      "sampleSize": null,
+      "evaluationType": null,
+      "candidateId": null
+    }
+  ],
+  "paretoFrontier": [
+    {
+      "name": "baseline",
+      "config": {
+        "agentUrl": "",
+        "systemPrompt": "You are a helpful assistant.",
+        "agentName": "zava-faos-agent",
+        "agentVersion": null,
+        "model": "gpt-4o",
+        "skills": []
+      },
+      "mutations": {},
+      "rationale": "baseline",
+      "avgScore": 0.7576,
+      "avgTokens": 0.0,
+      "passRate": 0.8462,
+      "taskScores": [
+        {
+          "taskName": "B01",
+          "scores": {
+            "task_adherence": 0.25,
+            "LI-002_action_deny": 0.0,
+            "LI-002_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 0.0,
+            "no_hallucination": 0.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.2083,
+          "tokens": 0,
+          "durationSeconds": 25.7350048,
+          "passed": false,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B02",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-005_action_refund": 1.0,
+            "LI-005_amount_exact": 1.0,
+            "LI-005_no_restocking_fee": 1.0,
+            "LI-005_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.875,
+          "tokens": 0,
+          "durationSeconds": 38.2198444,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B03",
+          "scores": {
+            "task_adherence": 0.5,
+            "LI-006_action_refund": 0.0,
+            "LI-006_amount_exact": 0.0,
+            "LI-006_no_restocking_fee": 1.0,
+            "LI-006_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.6875,
+          "tokens": 0,
+          "durationSeconds": 35.0635867,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B04",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-006_action_refund": 1.0,
+            "LI-006_amount_exact": 0.0,
+            "LI-006_no_restocking_fee": 1.0,
+            "LI-006_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.875,
+          "tokens": 0,
+          "durationSeconds": 45.582259,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B05",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-014_action_deny": 1.0,
+            "workflow_calculation_described": 0.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.6,
+          "tokens": 0,
+          "durationSeconds": 17.9134082,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B06",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-003_action_refund": 1.0,
+            "LI-003_amount_exact": 1.0,
+            "LI-003_restocking_fee_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 33.6891044,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B07",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-003_action_refund": 0.0,
+            "LI-003_amount_exact": 1.0,
+            "LI-003_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 30.5065728,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B08",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-009_action_refund": 1.0,
+            "LI-009_amount_exact": 1.0,
+            "LI-009_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 52.1289861,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B09",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-004_action_deny": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 23.5848095,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B10",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-004_action_store_credit": 1.0,
+            "LI-004_amount_exact": 1.0,
+            "LI-004_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 27.3048075,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B11",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-001_action_refund": 1.0,
+            "LI-001_amount_exact": 1.0,
+            "LI-001_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 29.0424672,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B12",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-010_action_deny": 0.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 0.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.2,
+          "tokens": 0,
+          "durationSeconds": 30.1911305,
+          "passed": false,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B13",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-010_action_refund": 1.0,
+            "LI-010_amount_exact": 1.0,
+            "LI-010_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 33.0317532,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B14",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-007_action_refund": 1.0,
+            "LI-007_amount_exact": 0.0,
+            "LI-007_no_restocking_fee": 1.0,
+            "LI-007_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.875,
+          "tokens": 0,
+          "durationSeconds": 39.921494,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B15",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-007_action_refund": 1.0,
+            "LI-007_amount_exact": 0.0,
+            "LI-007_no_restocking_fee": 1.0,
+            "LI-007_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.75,
+          "tokens": 0,
+          "durationSeconds": 36.7041212,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B16",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-013_action_refund": 1.0,
+            "LI-013_amount_exact": 1.0,
+            "LI-013_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 25.7364671,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B17",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-012_action_exchange": 1.0,
+            "LI-012_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.8333,
+          "tokens": 0,
+          "durationSeconds": 30.697377,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B18",
+          "scores": {
+            "task_adherence": 0.25,
+            "LI-008_action_replacement": 0.0,
+            "LI-008_amount_exact": 1.0,
+            "LI-008_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 0.25,
+            "cites_policy": 0.5
+          },
+          "compositeScore": 0.5714,
+          "tokens": 0,
+          "durationSeconds": 26.052167,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B19",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-015_action_cancel": 1.0,
+            "LI-015_amount_exact": 1.0,
+            "LI-015_no_restocking_fee": 1.0,
+            "LI-016_action_cancel": 1.0,
+            "LI-016_amount_exact": 1.0,
+            "LI-016_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 37.0613845,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B20",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-003_action_refund": 0.0,
+            "LI-003_amount_exact": 0.0,
+            "LI-003_restocking_fee_exact": 0.0,
+            "LI-004_action_deny": 1.0,
+            "workflow_calculation_described": 0.0,
+            "no_hallucination": 0.0,
+            "cites_policy": 0.0
+          },
+          "compositeScore": 0.125,
+          "tokens": 0,
+          "durationSeconds": 18.5392238,
+          "passed": false,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B21",
+          "scores": {
+            "task_adherence": 0.5,
+            "LI-005_action_refund": 1.0,
+            "LI-005_amount_exact": 1.0,
+            "LI-005_no_restocking_fee": 1.0,
+            "LI-005_shipping_credit_exact": 1.0,
+            "LI-006_action_refund": 0.0,
+            "LI-006_amount_exact": 0.0,
+            "LI-006_no_restocking_fee": 1.0,
+            "LI-006_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 0.75,
+            "no_hallucination": 0.5,
+            "cites_policy": 0.5
+          },
+          "compositeScore": 0.6875,
+          "tokens": 0,
+          "durationSeconds": 56.0587489,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B22",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-013_action_refund": 1.0,
+            "LI-013_amount_exact": 1.0,
+            "LI-013_no_restocking_fee": 1.0,
+            "LI-012_action_exchange": 1.0,
+            "LI-012_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 48.316213,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B23",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-003_action_refund": 1.0,
+            "LI-003_amount_exact": 1.0,
+            "LI-003_restocking_fee_exact": 0.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.8571,
+          "tokens": 0,
+          "durationSeconds": 43.0436073,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B24",
+          "scores": {
+            "task_adherence": 0.0,
+            "LI-002_action_deny": 0.0,
+            "LI-002_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 0.0,
+            "cites_policy": 0.25
+          },
+          "compositeScore": 0.375,
+          "tokens": 0,
+          "durationSeconds": 26.4271597,
+          "passed": false,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B25",
+          "scores": {
+            "task_adherence": 0.75,
+            "LI-002_action_refund": 0.0,
+            "LI-002_amount_exact": 1.0,
+            "LI-002_no_restocking_fee": 1.0,
+            "LI-002_shipping_credit_exact": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 0.25,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 0.75,
+          "tokens": 0,
+          "durationSeconds": 35.4811728,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        },
+        {
+          "taskName": "B26",
+          "scores": {
+            "task_adherence": 1.0,
+            "LI-011_action_store_credit": 1.0,
+            "LI-011_amount_exact": 1.0,
+            "LI-011_no_restocking_fee": 1.0,
+            "workflow_calculation_described": 1.0,
+            "no_hallucination": 1.0,
+            "cites_policy": 1.0
+          },
+          "compositeScore": 1.0,
+          "tokens": 0,
+          "durationSeconds": 19.6938265,
+          "passed": true,
+          "errorMessage": null,
+          "rationales": null,
+          "response": null,
+          "runId": null
+        }
+      ],
+      "isParetoOptimal": false,
+      "sampleAvgScore": null,
+      "sampleSize": null,
+      "evaluationType": null,
+      "candidateId": null
+    }
+  ],
+  "validationScore": null,
+  "error": null,
+  "progress": {
+    "currentStrategy": "baseline",
+    "currentIteration": 0,
+    "tasksCompleted": 26,
+    "tasksTotal": 26,
+    "bestScore": 0.75,
+    "elapsedSeconds": 322.5554412
+  },
+  "sampleSize": null,
+  "warnings": null,
+  "options": {
+    "strategies": [
+      "instruction"
+    ],
+    "budget": 10,
+    "maxIterations": 5,
+    "minImprovement": 0.005,
+    "passThreshold": 0.8,
+    "improvementThreshold": 0.95,
+    "strategyConfig": {},
+    "keepVersions": false,
+    "evalModel": "gpt-4.1-mini",
+    "tasksPerIteration": 0,
+    "maxReflectionTasks": 5,
+    "maxStaleIterations": 2,
+    "reflectionModel": null,
+    "mode": "evaluate",
+    "taskTimeoutSeconds": 300,
+    "evalAdapter": "LLMAsJudge"
+  },
+  "allStrategiesFailed": false
+}

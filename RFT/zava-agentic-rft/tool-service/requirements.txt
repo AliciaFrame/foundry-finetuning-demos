@@ -1,0 +1,4 @@
+azure-functions>=1.21,<2
+fastapi
+uvicorn
+gunicorn

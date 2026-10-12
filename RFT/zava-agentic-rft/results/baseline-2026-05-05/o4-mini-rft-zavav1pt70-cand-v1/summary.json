@@ -1,0 +1,18 @@
+{
+  "spec": "spec.yaml",
+  "results": [
+    {
+      "pass": 0.81,
+      "tokens": 0,
+      "candidate": "baseline",
+      "score": 0.79
+    }
+  ],
+  "summary": "Score 0.79 / 81% pass - RFT model (step 115 of <historical-job-id>) on cand-v1 prompt. Best Row 1 score yet (vs cand-v1 0.76/85%, base 0.63/62%, v1-append 0.64/69%).",
+  "rubric": "task_adherence",
+  "deployedAgentVariant": "AZURE_AI_MODEL_DEPLOYMENT_NAME=o4-mini-rft-zavav1pt70 ZAVA_USE_CANDIDATE=v1",
+  "ftJobId": "<historical-job-id>",
+  "checkpoint": "step-115",
+  "validReward": 0.5844,
+  "optJobId": "<historical-operation-id>"
+}

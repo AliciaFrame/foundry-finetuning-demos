@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
+.azure/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.log
+.ipynb_checkpoints/
+run/
+results/job.json
