@@ -34,7 +34,8 @@ class AsyncEvalClient:
         self.client = AsyncOpenAI(
             base_url=base_url,
             api_key=api_key,
-            default_query=params
+            default_query=params,
+            max_retries=10,
         )
 
 

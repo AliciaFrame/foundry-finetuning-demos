@@ -21,11 +21,11 @@ Configure the endpoint in `.env`:
 
 ```env
 AZURE_API_KEY="YOUR_AZURE_OPENAI_API_KEY_HERE"
-AZURE_API_ENDPOINT="https://<resource>.openai.azure.com"
+AZURE_API_ENDPOINT="https://<resource>.services.ai.azure.com"
 COUNTDOWN_FT_DEPLOYMENT="<deployment-created-from-the-completed-rft-job>"
 COUNTDOWN_BASE_DEPLOYMENTS="o4-mini,gpt-4.1-mini"
 COUNTDOWN_GRADER_DEPLOYMENT="gpt-4.1-mini"
-COUNTDOWN_DEPLOYMENT_CAPACITY="1"
+COUNTDOWN_DEPLOYMENT_CAPACITY="50"
 ```
 
 The endpoint must be the resource root; the helper clients add `/openai/v1`.
@@ -65,14 +65,18 @@ unless you pass a different `--seed`.
 The archived run did not preserve a reliable final base-versus-checkpoint
 table.
 
-On October 12, 2026, a compact Python-grader run completed training with 20
-training rows and 10 validation rows. Deployment was then blocked because the
-subscription had no available `o4-mini` fine-tuned-model throughput quota, so
-the final base-versus-fine-tuned comparison could not run. The model-grader
-variant passed data preparation and submission with a supported
-`gpt-4.1-mini` grader, but Azure retried preprocessing and ended the job with a
-service-side HTTP 500. These are external service/quota blockers rather than
-successful quality results.
+On October 13, 2026, the compact Python-grader path completed end to end using
+20 training rows, 50 validation rows, and 20 evaluation rows. After obsolete
+fine-tuned deployments were removed, the completed RFT job deployed and both
+evaluations finished without request errors at capacity 50. The base `o4-mini`
+deployment passed 100% and the fine-tuned checkpoint passed 95%; this tiny run
+validates the mechanics but does not demonstrate a quality improvement.
+
+The model-grader variant again passed data preparation and submission with a
+supported `gpt-4.1-mini` grader. Azure exhausted its internal retries and ended
+the job with HTTP 500 (`A system error was encountered`), reproducing the
+earlier service-side training failure rather than a local grader or data-format
+error.
 
 Treat the sample as a mechanics walkthrough until a larger held-out evaluation
 records the exact model, checkpoint, grader threshold, date, cost, and pass

@@ -7,7 +7,7 @@ testing; it does not include production customer traces.
 
 ## What it shows
 
-1. **Pull** real conversation traces from a deployed Foundry agent via the `foundry-traces` recipe of the Data Generation API
+1. **Pull** real conversation traces from a deployed Foundry agent via the `foundry-traces` recipe of the Data Generation API, or query its Application Insights resource directly when the Foundry worker cannot cross a private endpoint
 2. **Transform** the raw export into Azure-FT-ready JSONL (5 fixes the Foundry export currently requires for tool-using agents — all applied inline in the notebook)
 3. **Score** the base student on a held-out test set using **structural tool-call comparison**
 4. **Submit** one fine-tuning job (winning hyperparameters: 3 epochs, lr=1.0)
@@ -43,10 +43,22 @@ deployment, and fine-tuned evaluation all ran. On four held-out first-turn
 examples, the structural score moved from `8.5` to `10.0` and pass rate from
 `75%` to `100%`. This tiny, synthetic sample validates the pipeline only.
 
-Live App Insights harvesting was attempted separately and was blocked because
-the telemetry resource required Private Link
-(`AppInsightsReadWithoutPrivateLink`). The fixture bypasses only that harvesting
-step; it is not evidence that live trace collection works in that environment.
+The Foundry Data Generation worker could not read one private-link-protected
+Application Insights resource (`AppInsightsReadWithoutPrivateLink`). The
+notebook now supports a direct, RBAC-authenticated Application Insights query
+with `APPLICATIONINSIGHTS_RESOURCE_ID`, so an operator running on an authorized
+network can export the same live GenAI spans without routing the Foundry worker
+through that private endpoint.
+
+### Current live trace validation
+
+On October 13, 2026, the direct Application Insights path exported 14 fresh
+tool-using conversations from a live hosted agent. The notebook transformed
+all 14 rows, split them into 11 train / 1 validation / 2 test rows, completed
+fine-tuning and deployment, and evaluated both deployments without request
+failures. The base and fine-tuned `gpt-4.1-mini` deployments each scored
+10.0/10 with a 100% pass rate on the two held-out rows. This confirms the live
+end-to-end path; the test set is far too small to establish quality lift.
 
 ## Prerequisites
 
@@ -58,14 +70,15 @@ step; it is not evidence that live trace collection works in that environment.
 - Python 3.11+ with:
 
 ```bash
-pip install openai>=2.0 azure-ai-projects>=2.3.0 azure-identity>=1.21 azure-ai-evaluation>=1.0
+pip install openai>=2.0 azure-ai-projects>=2.3.0 azure-identity>=1.21 azure-monitor-query>=1.4 azure-ai-evaluation>=1.0
 ```
 
 ## Files in this folder
 
 | File | Purpose |
 |------|---------|
-| `notebook.ipynb` | End-to-end runnable walkthrough — **fully self-contained**, no external scripts required |
+| `notebook.ipynb` | End-to-end runnable walkthrough |
+| `scripts/export_app_insights_traces.py` | Direct RBAC-authenticated export fallback for private-link-protected Application Insights resources |
 | `fixtures/push_prompts.py` | Optional standalone script that pushes diverse retail prompts through any hosted agent (use this before the notebook if your agent has no trace history yet) |
 | `fixtures/sample_agent_traces.jsonl` | Sanitized synthetic tool-use traces for exercising the transform, training, deployment, and evaluation path without production trace access |
 | `fixtures/zava_system_prompt.md` | Sample system prompt for the Zava resolution-desk agent (replace with your own) |
@@ -75,13 +88,17 @@ pip install openai>=2.0 azure-ai-projects>=2.3.0 azure-identity>=1.21 azure-ai-e
 
 ```bash
 export AZURE_AI_PROJECT_ENDPOINT="https://<resource>.services.ai.azure.com/api/projects/<project>"
-export OPENAI_BASE_URL="https://<resource>.openai.azure.com/openai/v1"
+export OPENAI_BASE_URL="https://<resource>.services.ai.azure.com/openai/v1"
 export AZURE_OPENAI_API_KEY="<key>"
 export AZURE_SUBSCRIPTION_ID="<subscription-id>"
 export AZURE_RESOURCE_GROUP="<resource-group>"
 export AZURE_ACCOUNT_NAME="<resource-name>"
 export FOUNDRY_AGENT_NAME="<your-hosted-agent>"
 export FOUNDRY_AGENT_VERSION="<version>"
+
+# Optional direct-query fallback. Use the full ARM resource ID of the
+# Application Insights component connected to the Foundry project.
+export APPLICATIONINSIGHTS_RESOURCE_ID="/subscriptions/<subscription-id>/resourceGroups/<resource-group>/providers/microsoft.insights/components/<name>"
 
 # (Optional) populate trace history first if your agent has none:
 python fixtures/push_prompts.py \
@@ -96,18 +113,25 @@ jupyter notebook notebook.ipynb
 
 Full run is ~30–50 minutes depending on FT queue depth.
 
-If the Foundry project cannot read Application Insights (for example, because
-the telemetry resource requires Private Link), set
-`TRACE_INPUT_FILE=fixtures/sample_agent_traces.jsonl`. This bypasses only the
-trace-harvesting call; the notebook still transforms data, evaluates the base
-model, fine-tunes, deploys, and evaluates the fine-tuned model.
+The notebook chooses its trace source in this order:
+
+1. `TRACE_INPUT_FILE`, when you already have a reviewed JSONL export
+2. Direct Application Insights query when `APPLICATIONINSIGHTS_RESOURCE_ID` is set
+3. Foundry Data Generation API otherwise
+
+The direct-query identity needs permission to query the Application Insights
+component and network access to its ingestion/query path. If neither live path
+is available, set `TRACE_INPUT_FILE=fixtures/sample_agent_traces.jsonl` for a
+fixture-backed pipeline smoke test.
 
 ## Privacy and safety
 
 Agent traces can contain prompts, tool arguments, tool outputs, identifiers,
 and customer data. Obtain consent, apply redaction and retention controls, and
 review the transformed JSONL before upload. Never commit exported production
-traces.
+traces. The direct Application Insights export does not apply the Data
+Generation service's `redact_private_content` option, so redact its output
+before training whenever traces can contain private data.
 
 ## Why the transform step exists
 

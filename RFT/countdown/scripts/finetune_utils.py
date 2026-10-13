@@ -19,7 +19,8 @@ api_key = AZURE_API_KEY if OAI_API_TYPE != "openai" else OPENAI_API_KEY
 
 client = OpenAI(
     base_url=base_url,
-    api_key=api_key
+    api_key=api_key,
+    max_retries=10,
 )
 
 def create_finetune_sft(training_file_id: str, model: str, suffix: str = None, hyperparameters: dict = None):

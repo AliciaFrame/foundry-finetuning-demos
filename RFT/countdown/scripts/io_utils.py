@@ -36,7 +36,8 @@ async def upload_file(file_name: str, file_path: str, purpose: str = "fine-tune"
 
     client = AsyncOpenAI(
         base_url=base_url,
-        api_key=api_key
+        api_key=api_key,
+        max_retries=10,
     )
 
     with open(file_path, "rb") as f:

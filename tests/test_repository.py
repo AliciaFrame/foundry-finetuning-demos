@@ -226,6 +226,56 @@ def test_countdown_grader_smoke():
         assert grader.grade(forbidden, item) == 0
 
 
+def test_trace_export_converts_genai_parts():
+    exporter = _load_module(
+        ROOT / "SFT/trace-distillation/scripts/export_app_insights_traces.py"
+    )
+    input_messages = [
+        {"role": "system", "parts": [{"type": "text", "content": "instructions"}]},
+        {"role": "user", "parts": [{"type": "text", "content": "Find order 1"}]},
+        {
+            "role": "assistant",
+            "parts": [
+                {
+                    "type": "tool_call",
+                    "id": "call-1",
+                    "name": "get_order",
+                    "arguments": {"order_id": "1"},
+                }
+            ],
+        },
+        {
+            "role": "tool",
+            "parts": [
+                {
+                    "type": "tool_call_response",
+                    "id": "call-1",
+                    "response": "{\"status\":\"delivered\"}",
+                }
+            ],
+        },
+    ]
+    output_messages = [
+        {
+            "role": "assistant",
+            "parts": [{"type": "text", "content": "Order 1 was delivered."}],
+        }
+    ]
+
+    messages = exporter.conversation_from_span(
+        json.dumps(input_messages), json.dumps(output_messages)
+    )
+
+    assert [message["role"] for message in messages] == [
+        "user",
+        "assistant",
+        "tool",
+        "assistant",
+    ]
+    assert messages[1]["tool_calls"][0]["function"]["arguments"] == '{"order_id":"1"}'
+    assert messages[2]["tool_call_id"] == "call-1"
+
+
 def test_countdown_data_is_locally_generated():
     demo = ROOT / "RFT/countdown"
     for path in [demo / "demo.ipynb", demo / "demo_with_python_grader.ipynb"]:
