@@ -1,8 +1,9 @@
 # Traces → SFT Distillation
 
 This demo fine-tunes a small student model (`gpt-4.1-nano`) to mimic a larger
-hosted agent's tool-using behavior using traces from your Foundry agent. No
-customer traces are included in this repository.
+hosted agent's tool-using behavior using traces from your Foundry agent. The
+repository includes a sanitized synthetic trace fixture for deterministic
+testing; it does not include production customer traces.
 
 ## What it shows
 
@@ -34,6 +35,19 @@ making a cost claim.
 These historical results came from a small experiment and should be rerun
 before making a production decision.
 
+### Current fixture-backed smoke validation
+
+On October 12, 2026, the downstream path completed against the included
+sanitized fixture with `gpt-4.1-mini`: transform, base evaluation, training,
+deployment, and fine-tuned evaluation all ran. On four held-out first-turn
+examples, the structural score moved from `8.5` to `10.0` and pass rate from
+`75%` to `100%`. This tiny, synthetic sample validates the pipeline only.
+
+Live App Insights harvesting was attempted separately and was blocked because
+the telemetry resource required Private Link
+(`AppInsightsReadWithoutPrivateLink`). The fixture bypasses only that harvesting
+step; it is not evidence that live trace collection works in that environment.
+
 ## Prerequisites
 
 - An Azure AI Foundry project with a **deployed hosted agent** that has historical traces in App Insights. If you don't have one yet:
@@ -44,7 +58,7 @@ before making a production decision.
 - Python 3.11+ with:
 
 ```bash
-pip install openai>=2.0 azure-ai-projects>=2.2.0 azure-identity>=1.21 azure-ai-evaluation>=1.0
+pip install openai>=2.0 azure-ai-projects>=2.3.0 azure-identity>=1.21 azure-ai-evaluation>=1.0
 ```
 
 ## Files in this folder
@@ -53,6 +67,7 @@ pip install openai>=2.0 azure-ai-projects>=2.2.0 azure-identity>=1.21 azure-ai-e
 |------|---------|
 | `notebook.ipynb` | End-to-end runnable walkthrough — **fully self-contained**, no external scripts required |
 | `fixtures/push_prompts.py` | Optional standalone script that pushes diverse retail prompts through any hosted agent (use this before the notebook if your agent has no trace history yet) |
+| `fixtures/sample_agent_traces.jsonl` | Sanitized synthetic tool-use traces for exercising the transform, training, deployment, and evaluation path without production trace access |
 | `fixtures/zava_system_prompt.md` | Sample system prompt for the Zava resolution-desk agent (replace with your own) |
 | `fixtures/zava_tools.json` | Sample tool catalog (OpenAI chat-completions format) — replace with your own |
 
@@ -64,6 +79,9 @@ export OPENAI_BASE_URL="https://<resource>.openai.azure.com/openai/v1"
 export AZURE_OPENAI_API_KEY="<key>"
 export AZURE_SUBSCRIPTION_ID="<subscription-id>"
 export AZURE_RESOURCE_GROUP="<resource-group>"
+export AZURE_ACCOUNT_NAME="<resource-name>"
+export FOUNDRY_AGENT_NAME="<your-hosted-agent>"
+export FOUNDRY_AGENT_VERSION="<version>"
 
 # (Optional) populate trace history first if your agent has none:
 python fixtures/push_prompts.py \
@@ -77,6 +95,12 @@ jupyter notebook notebook.ipynb
 ```
 
 Full run is ~30–50 minutes depending on FT queue depth.
+
+If the Foundry project cannot read Application Insights (for example, because
+the telemetry resource requires Private Link), set
+`TRACE_INPUT_FILE=fixtures/sample_agent_traces.jsonl`. This bypasses only the
+trace-harvesting call; the notebook still transforms data, evaluates the base
+model, fine-tunes, deploys, and evaluates the fine-tuned model.
 
 ## Privacy and safety
 

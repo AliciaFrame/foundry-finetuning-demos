@@ -15,12 +15,19 @@
 
 ## Results
 
-The original published percentages were not accompanied by the evaluation rows
-that produced them, and the checked-in notebook evaluates ten examples. They
-are therefore not reproducible from this repository and have been removed.
-Run the notebook to produce a fresh base, fine-tuned, and teacher comparison;
-record the denominator, model versions, date, and current pricing with any
-result you publish.
+The original published percentages were not accompanied by their evaluation
+rows and remain excluded. A clean live run on 2026-10-12 produced this
+ten-example smoke result:
+
+| Model | Mean combined score | Pass rate at 7 |
+|---|---:|---:|
+| GPT-4.1-mini base | 8.33 | 80% (8/10) |
+| GPT-4.1-mini fine-tuned | 8.63 | 80% (8/10) |
+| GPT-5.4 teacher/judge | 8.80 | 80% (8/10) |
+
+The fine-tuned model improved mean score by 0.30 but did **not** improve pass
+rate. Ten rows are enough to validate the workflow, not to establish a robust
+quality claim.
 
 ## Prerequisites
 

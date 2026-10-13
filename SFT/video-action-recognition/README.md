@@ -2,8 +2,11 @@
 
 This Solution Accelerator demonstrates how to use Azure OpenAI GPT-4.1 vision fine-tuning to improve the model's performance in detecting human activities in video clips. The project utilizes the [UCF101 - Action Recognition](https://www.kaggle.com/datasets/matthewjansen/ucf101-action-recognition) dataset from Kaggle, a comprehensive video dataset featuring 101 distinct human action categories such as "playing guitar," "surfing," and "knitting." It contains 13,320 video clips, each labeled with a single action category.
 
-The notebook downloads the dataset from Kaggle. Videos and extracted frames are
-not redistributed by this repository.
+The notebook defaults to the Apache-2.0
+[`sayakpaul/ucf101-subset`](https://huggingface.co/datasets/sayakpaul/ucf101-subset)
+archive for a credential-free smoke run. Set `VIDEO_DATA_SOURCE=kaggle` to use
+the larger Kaggle package. Videos and extracted frames are not redistributed by
+this repository.
 
 __Acknowledgements:__
 
@@ -11,6 +14,17 @@ __Acknowledgements:__
 - Citation: https://arxiv.org/abs/1212.0402
 
 This Solution Accelerator provides reusable code to help you apply vision fine-tuning for video analysis in various use cases.
+
+## Current validation status
+
+On October 12, 2026, the Hugging Face smoke path downloaded and extracted the
+dataset, generated frames, uploaded and processed 30 training rows, and
+submitted the vision fine-tuning job. Azure rejected all 30 rows during
+preprocessing because the clips contain people; 25 rows also contained faces
+and one triggered CAPTCHA detection. The notebook path is functional through
+submission, but end-to-end training requires Modified Content Filtering
+approval on the target resource. The archived `99%` result has not been
+reproduced by this validation.
 
 > **Note:** By default, the Fine-Tuning API rejects images containing people and faces for AI safety reasons.
 You can apply to opt out of this limitation by submitting a request here: https://customervoice.microsoft.com/Pages/ResponsePage.aspx.
@@ -34,14 +48,29 @@ pip install -r requirements.txt
 ```
 
 __Required Services:__
-- An Azure OpenAI resource with the following model deployments:
-   - GPT-4.1
+- An Azure OpenAI resource with a vision-capable base deployment and access to
+  vision fine-tuning
 
 __Optional Services:__
 - Azure AI Foundry for managing fine-tuning in the UI
 - An Azure Storage Account
 
-Rename the environemt file template `.env.template` to `.env` and add your credentials by editing the file.
+Rename the environment file template `.env.template` to `.env`, or set the
+variables in your process environment.
+
+For a compact validation run:
+
+```env
+VIDEO_DATA_SOURCE=huggingface
+VIDEO_BASE_DEPLOYMENT=gpt-4o
+VIDEO_FT_MODEL=gpt-4o-2024-08-06
+VIDEO_CLASS_COUNT=3
+VIDEO_TRAIN_SAMPLES=30
+VIDEO_VAL_SAMPLES=12
+VIDEO_TEST_SAMPLES=6
+VIDEO_FRAMES=2
+VIDEO_FT_EPOCHS=1
+```
 
 Navigate to the video fine-tuning notebook:
 
@@ -77,6 +106,8 @@ sudo apt install libgl1-mesa-glx
 - Verify video frames are properly extracted and encoded
 - Check that JSONL format matches the expected schema
 - Ensure images don't exceed size limits
+- The resource must be approved for fine-tuning images that contain people;
+  otherwise Azure may reject UCF101 training examples by policy
 
 **Quota Exceeded**
 - Request additional quota in Azure Portal → Azure OpenAI → Quotas

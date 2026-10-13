@@ -14,15 +14,20 @@ Creating training data for code generation is expensive. NVIDIA Data Designer au
 
 ## Results
 
-Using ~85 curated training examples (filtered from 100 generated), 1 epoch of fine-tuning with learning rate multiplier 1.3:
+An end-to-end smoke run on 2026-10-12 generated 50 examples, retained 44
+after quality filtering, trained for one epoch, and evaluated all models on the
+same two held-out rows:
 
 | Model | Correctness | Conciseness | Combined | Pass@8 |
 |-------|-------------|-------------|----------|--------|
-| **GPT-5.4** (teacher) | 7.5 | 7.0 | 7.2 | 50% |
-| **GPT-4.1-mini** (base) | 7.0 | 7.2 | 7.1 | 25% |
-| **GPT-4.1-mini** (fine-tuned) | — | — | — | — |
+| **GPT-5.4** (teacher) | 9.0 | 8.5 | 8.75 | 100% |
+| **GPT-4.1-mini** (base) | 8.0 | 8.5 | 8.25 | 100% |
+| **GPT-4.1-mini** (fine-tuned) | 9.0 | 8.5 | 8.75 | 100% |
 
-> *Note: The fine-tuned model scores vary by run. In the original 2,000-example run documented in the notebook, the fine-tuned model matched or exceeded GPT-5.4 quality. Results above are from a 100-example test run; scale up `NUM_RECORDS` for best results.*
+The fine-tuned model gained 0.5 combined points and matched the teacher on this
+tiny sample, while the validation loss indicated a 2.3x train/validation loss
+ratio. This validates the pipeline, **not** a model-quality claim. Use a larger
+independent evaluation and select the best checkpoint before drawing conclusions.
 
 ## Pipeline overview
 

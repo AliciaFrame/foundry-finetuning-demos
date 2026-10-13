@@ -147,8 +147,8 @@ def test_zava_notebook_has_standalone_artifacts():
     assert 'ROOT / \\"agent\\" / \\"spec.yaml\\"' not in notebook
     assert "cognitiveservices.azure.com/api/projects" not in notebook
     assert "RUN_FAOS" not in notebook
-    assert '"LIVE_EVALS = False' in notebook
-    assert '"SUBMIT_RFT = False' in notebook
+    assert 'LIVE_EVALS = env_flag(\\"LIVE_EVALS\\")' in notebook
+    assert 'SUBMIT_RFT = env_flag(\\"SUBMIT_RFT\\")' in notebook
 
     parsed = json.loads(notebook)
     for cell in parsed["cells"]:
@@ -284,6 +284,105 @@ def test_countdown_data_is_locally_generated():
         assert len(keys) == len(rows)
         splits.append(keys)
     assert splits[0].isdisjoint(splits[1])
+
+
+def test_notebook_execution_repairs_are_present():
+    countdown_upload = (
+        ROOT / "RFT/countdown/scripts/io_utils.py"
+    ).read_text(encoding="utf-8")
+    assert 'processed.status == "processed"' in countdown_upload
+    assert "client.files.retrieve(uploaded.id)" in countdown_upload
+    assert "client.files.list()" not in countdown_upload
+
+    image = (
+        ROOT
+        / "SFT/image-breed-classification/images_classification_vlm.ipynb"
+    ).read_text(encoding="utf-8")
+    assert "maurice-fp/stanford-dogs" in image
+    assert 'comparison_df[\\\"id\\\"].astype(str)' in image
+    assert "uploaded_file.status not in" in image
+    assert "REUSE_IMAGE_JOB_ID" in image
+    assert "DefaultAzureCredential" in image
+    assert 'breed.lower() in text.lower()' in image
+    assert 'selected_breeds = sorted(dataset_df[\\\"breed\\\"]' in image
+    assert "dog-breed-demo" in image
+
+    latency = (
+        ROOT / "SFT/image-breed-classification/latency_base_ft_models.ipynb"
+    ).read_text(encoding="utf-8")
+    assert "DOG_IMAGES_PER_BREED" in latency
+    assert 'FT_DEPLOYMENT = os.getenv(\\"AZURE_OPENAI_FT_DEPLOYMENT_NAME\\")' in latency
+
+    video = (
+        ROOT
+        / "SFT/video-action-recognition/"
+        "fine-tune-aoai-gpt4-1-action-detection.ipynb"
+    ).read_text(encoding="utf-8")
+    assert "sayakpaul/ucf101-subset" in video
+    assert 'filter=\\\"data\\\"' in video
+    assert 'f\\\"Bearer {token}\\\"' in video
+    assert "uploaded.status == \\\"processed\\\"" in video
+
+    sarcasm = (
+        ROOT / "SFT/distilling-sarcasm/sarcasm.ipynb"
+    ).read_text(encoding="utf-8")
+    assert "SARCASM_BASE_MODELS" in sarcasm
+    assert "SARCASM_STUDENT_MODEL" in sarcasm
+    assert "status={status}" not in sarcasm
+    assert "Fine-tuned deployment failed" in sarcasm
+
+    trace = (
+        ROOT / "SFT/trace-distillation/notebook.ipynb"
+    ).read_text(encoding="utf-8")
+    assert "SupervisedFineTuningDataGenerationJobInputs" in trace
+    assert "begin_create_generation_job" in trace
+    assert "TRACE_INPUT_FILE" in trace
+    assert "REUSE_TRACE_JOB_ID" in trace
+    assert "DefaultAzureCredential" in trace
+    assert "FILE_PROCESSING_TIMEOUT" in trace
+    assert "Deployment failed" in trace
+    assert "was not inferenceable" in trace
+
+    for countdown_path in [
+        ROOT / "RFT/countdown/demo.ipynb",
+        ROOT / "RFT/countdown/demo_with_python_grader.ipynb",
+    ]:
+        countdown = countdown_path.read_text(encoding="utf-8")
+        assert "REUSE_COUNTDOWN_JOB_ID" in countdown
+        assert "DefaultAzureCredential" in countdown
+
+    math = (
+        ROOT / "RFT/math-reasoning/rft_math_reasoning.ipynb"
+    ).read_text(encoding="utf-8")
+    assert "get_bearer_token_provider" in math
+    assert "REUSE_RFT_JOB_ID" in math
+
+    nl_to_python = (
+        ROOT
+        / "SFT/nl-to-python-distillation/Text_to_Python_Fine_Tuning.ipynb"
+    ).read_text(encoding="utf-8")
+    assert 'grader_name.startswith(\\"correctness-\\")' in nl_to_python
+    assert 'grader_name.startswith(\\"conciseness-\\")' in nl_to_python
+    assert "Evaluation completed without a full score set" in nl_to_python
+
+
+def test_all_notebook_python_cells_parse():
+    for path in ROOT.rglob("*.ipynb"):
+        notebook = json.loads(path.read_text(encoding="utf-8"))
+        for index, cell in enumerate(notebook["cells"]):
+            if cell["cell_type"] != "code":
+                continue
+            source = "\n".join(
+                line
+                for line in "".join(cell["source"]).splitlines()
+                if not line.lstrip().startswith(("%", "!", "pip install "))
+            )
+            try:
+                ast.parse(source)
+            except SyntaxError as error:
+                raise AssertionError(
+                    f"Invalid Python in {path.relative_to(ROOT)} cell {index}"
+                ) from error
 
 
 def test_local_markdown_links():

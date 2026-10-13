@@ -23,16 +23,25 @@ Configure the endpoint in `.env`:
 AZURE_API_KEY="YOUR_AZURE_OPENAI_API_KEY_HERE"
 AZURE_API_ENDPOINT="https://<resource>.openai.azure.com"
 COUNTDOWN_FT_DEPLOYMENT="<deployment-created-from-the-completed-rft-job>"
+COUNTDOWN_BASE_DEPLOYMENTS="o4-mini,gpt-4.1-mini"
+COUNTDOWN_GRADER_DEPLOYMENT="gpt-4.1-mini"
+COUNTDOWN_DEPLOYMENT_CAPACITY="1"
 ```
 
 The endpoint must be the resource root; the helper clients add `/openai/v1`.
-Before the final comparison section, deploy a retained fine-tuned checkpoint and
-set `COUNTDOWN_FT_DEPLOYMENT` to that deployment name.
+The notebooks now wait for uploaded files and training to finish, then create
+the `COUNTDOWN_FT_DEPLOYMENT` automatically. The model-based grader supports
+only specific grader model families; use a supported deployment such as
+`gpt-4.1-mini`.
 
 Open `demo_with_python_grader.ipynb` for the preferred inline-grader path.
 The older `demo.ipynb` demonstrates a model-based grader. Both notebooks cover
 data preparation, base-model evaluation, RFT submission, and checkpoint
 evaluation.
+
+For a compact live run, set `COUNTDOWN_EVAL_RECORDS`,
+`COUNTDOWN_TRAIN_RECORDS`, and `COUNTDOWN_VALID_RECORDS`. Small smoke runs
+validate mechanics but are not meaningful model-quality benchmarks.
 
 The [`endpoint-grader/`](endpoint-grader/) directory contains an optional Azure
 Function implementation for environments that require a hosted grader.
@@ -54,8 +63,19 @@ unless you pass a different `--seed`.
 ## Results
 
 The archived run did not preserve a reliable final base-versus-checkpoint
-table. Treat this sample as unverified until you rerun the held-out evaluation
-and record the exact model, checkpoint, grader threshold, date, cost, and pass
+table.
+
+On October 12, 2026, a compact Python-grader run completed training with 20
+training rows and 10 validation rows. Deployment was then blocked because the
+subscription had no available `o4-mini` fine-tuned-model throughput quota, so
+the final base-versus-fine-tuned comparison could not run. The model-grader
+variant passed data preparation and submission with a supported
+`gpt-4.1-mini` grader, but Azure retried preprocessing and ended the job with a
+service-side HTTP 500. These are external service/quota blockers rather than
+successful quality results.
+
+Treat the sample as a mechanics walkthrough until a larger held-out evaluation
+records the exact model, checkpoint, grader threshold, date, cost, and pass
 rate.
 
 RFT model, region, grader, and API support changes over time. Check current

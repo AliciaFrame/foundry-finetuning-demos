@@ -1,4 +1,5 @@
 # Import required libraries
+import asyncio
 import os
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
@@ -16,7 +17,7 @@ OPENAI_API_ENDPOINT = os.getenv("OPENAI_API_BASE", "") + "/v1"
 async def upload_file(file_name: str, file_path: str, purpose: str = "fine-tune") -> str:
     """
     Upload a file to either Azure or OpenAI based on the configuration in the .env file.
-    If a file with the same name already exists, return its ID instead of uploading again.
+    Wait until the service has completely processed the uploaded file.
 
     Args:
         file_name (str): The name of the file to upload.
@@ -24,7 +25,7 @@ async def upload_file(file_name: str, file_path: str, purpose: str = "fine-tune"
         purpose (str): The purpose of the file upload (e.g., "fine-tune", "evals"). Defaults to "fine-tune".
 
     Returns:
-        str: The file ID of the uploaded or existing file, or an empty string if the operation fails.
+        str: The processed file ID.
     """
     use_openai = os.getenv("OAI_API_TYPE", "azure").lower() == "openai"
 
@@ -38,25 +39,19 @@ async def upload_file(file_name: str, file_path: str, purpose: str = "fine-tune"
         api_key=api_key
     )
 
-    # Check if the file already exists
-    list_response = await client.files.list()
+    with open(file_path, "rb") as f:
+        uploaded = await client.files.create(
+            file=f,
+            purpose=purpose,  # type: ignore[arg-type]
+        )
 
-    files = list_response.data
-    for file in files:
-        if file.filename == file_name:
-            print(f"File '{file_name}' already exists on OpenAI. Returning existing file ID.")
-            return file.id
-
-    # File does not exist, proceed with upload
-    try:
-        with open(file_path, 'rb') as f:
-            response = await client.files.create(
-                file=f,
-                purpose= purpose, # type: ignore
+    while True:
+        processed = await client.files.retrieve(uploaded.id)
+        if processed.status == "processed":
+            print(f"File '{file_name}' uploaded and processed.")
+            return processed.id
+        if processed.status == "error":
+            raise RuntimeError(
+                f"File '{file_name}' processing failed: {processed.status_details}"
             )
-
-        print(f"File uploaded successfully to {'OpenAI' if use_openai else 'Azure'}.")
-        return response.id
-    except Exception as e:
-        print(f"Failed to upload file to {'OpenAI' if use_openai else 'Azure'}: {e}")
-        return ''
+        await asyncio.sleep(2)

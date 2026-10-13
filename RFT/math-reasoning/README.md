@@ -75,7 +75,7 @@ This cookbook teaches you how to:
 - Azure subscription with Microsoft Foundry project (requires **Azure AI User** role)
 - Python 3.9 or higher
 - Familiarity with Jupyter notebooks
-- Kaggle account to download the OpenR1-Math-220k dataset
+- Network access to Hugging Face only if rebuilding the bundled subset
 - Understanding of basic mathematical concepts
 
 ## Supported Models
@@ -131,11 +131,21 @@ AZURE_SUBSCRIPTION_ID=<your-subscription-id>
 AZURE_RESOURCE_GROUP=<your-resource-group>
 AZURE_AOAI_ACCOUNT=<your-foundry-account-name>
 MODEL_NAME=<your-base-model-name>
+
+# Optional: reuse a matching completed job instead of submitting a costly rerun
+REUSE_RFT_JOB_ID=<completed-job-id>
 ```
 
 ### 4. Run the Notebook
 
 Open `rft_math_reasoning.ipynb` and follow the step-by-step instructions.
+
+### Current validation status
+
+On October 12, 2026, the notebook reused a matching completed RFT job through
+`REUSE_RFT_JOB_ID`, deployed its model, and completed live inference. This
+validates job retrieval, deployment, authentication, and inference; it is not a
+new training run or a model-quality benchmark.
 
 ## Dataset Format
 

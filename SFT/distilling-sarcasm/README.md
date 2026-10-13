@@ -6,9 +6,9 @@ larger model into a smaller model.
 
 ## tl;dr
 
-1. Go spin up base model deployments for all models you want to work with. In
-   this notebook, I use o3, o4-mini, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano,
-   gpt-4o, and gpt-4o-mini. You might need TPM quota in your subscription.
+1. Deploy a grader, teacher candidates, and an unfine-tuned student. The
+   defaults use `gpt-4.1-mini` for grading, `gpt-4o` and `gpt-4o-mini` as
+   teacher candidates, and `gpt-4o-mini` as the student.
 
 2. Create and populate a `.env` file to simplify stuff. In it, put some Azure
    specific details:
@@ -38,6 +38,20 @@ $ code sarcasm.ipynb
 
 Happy distilling. 🧪
 
+For a lower-cost smoke run, set `SARCASM_RECORDS`, `SARCASM_BASE_MODELS`,
+`SARCASM_GRADER_MODEL`, `SARCASM_STUDENT_MODEL`, and `SARCASM_EPOCHS`.
+The notebook now trains one OpenAI student; the provider-specific Ministral
+branch from the original prototype is intentionally omitted.
+
+## Current smoke result
+
+A live run on 2026-10-12 used 50 factual prompts, selected 14 responses above
+the distillation cutoff, and trained on 11 rows with 3 validation rows. On ten
+held-out prompts, the fine-tuned `gpt-4o-mini` deployment scored 5.0 average
+with an 80% pass rate; an unfine-tuned run scored 5.2 average with a 70% pass
+rate. The pass-rate improvement and slightly lower mean conflict, so this small
+run validates the workflow but does not establish a clear quality win.
+
 ## Background
 The basis for this demo is the Distillation [demo](https://github.com/azure-ai-foundry/build-2025-demos/blob/main/Azure%20AI%20Model%20Customization/DistillationDemo/demo.ipynb)
 featured at Build 2025:
@@ -55,7 +69,7 @@ We use a crude grader that rewards two things:
 More importantly, it *heavily* penalizes wrong answers by driving the scores to
 zero. In practice, I don't think I saw this happen, but it's a fun example.
 
-We leave it to **o3** to decide what we mean by sarcasm 😜
+The grader deployment is configurable; the default is **gpt-4.1-mini**.
 
 ## Methodology
 More will be written here, but at a high-level the approach takes a few steps.

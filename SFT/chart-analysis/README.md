@@ -10,6 +10,19 @@ This project utilizes the ChartQA dataset introduced by Masry et al. in their pa
 The notebook downloads ChartQA through Hugging Face. Dataset files are not
 redistributed here; comply with the dataset's original terms.
 
+## Validated smoke result
+
+The October 2026 end-to-end run used 20 training rows, 10 validation rows, and
+20 held-out test rows. Fine-tuning completed all 100 expected steps, the model
+deployed successfully, and both vision inference paths completed. The GPT-4.1
+baseline scored 17/20 (85%); the fine-tuned model scored 16/20 (80%).
+
+This small run validates the workflow but does **not** show a quality
+improvement. Use a larger representative split and tune the data and
+hyperparameters before drawing a model-quality conclusion. A newly provisioned
+fine-tuned vision deployment can also take several minutes after ARM reports
+success before its dependent inference backend becomes ready.
+
 ## Get started
 
 Create and activate a virtual Python environment for running the code.
@@ -60,3 +73,5 @@ Navigate to the vision fine-tuning notebook:
 **Quota Exceeded**
 - Request additional quota in Azure Portal → Azure OpenAI → Quotas
 - Try a different Azure region with available capacity
+- Increase `CHART_DEPLOYMENT_CAPACITY` if batch evaluation repeatedly reaches
+  the token-rate limit; the notebook defaults to 10K TPM.

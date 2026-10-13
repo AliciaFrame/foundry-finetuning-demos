@@ -28,13 +28,15 @@ repository. The original Azure AI Foundry MIT notice is retained in
 - **Countdown** rows in this repository are generated locally by
   [`generate_data.py`](RFT/countdown/scripts/generate_data.py); no rows from the
   unlicensed `predibase/countdown` dataset are redistributed.
-- **Stanford Dogs** images are not redistributed. Users must obtain the data
-  from the original source and comply with its terms.
+- **Stanford Dogs** images are not redistributed. The image demo can download
+  them from the `maurice-fp/stanford-dogs` Hugging Face mirror; the underlying
+  Stanford Dogs/ImageNet image terms still apply.
 - **ChartQA** data is not redistributed. The archived source associated its
   sample data with GPL-3.0; users should obtain data from the original project
   and comply with its current terms.
-- **UCF101** videos and extracted frames are not redistributed. Users must
-  obtain the data from the UCF project and cite the dataset authors.
+- **UCF101** videos and extracted frames are not redistributed. The video demo
+  can download the Apache-2.0 `sayakpaul/ucf101-subset` package for smoke
+  testing. Users must still cite the UCF101 dataset authors.
 - Synthetic Zava customers, orders, products, and results are fictional.
 
 Third-party package licenses continue to apply to installed dependencies.

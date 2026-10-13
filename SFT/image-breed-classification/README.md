@@ -5,7 +5,24 @@ This project demonstrates how to use a Vision Language Model (VLM) with **Azure 
 2. A fine-tuned Azure OpenAI vision model (LoRA SFT) on a down-sampled subset
 3. A classic CNN baseline (MobileNetV3-Small) for grounding
 
-### At-a-Glance Summary
+### Historical result summary
+
+The following numbers were preserved from the original full experiment. They
+are not produced by the default smoke configuration and should not be treated
+as a current benchmark without a full rerun.
+
+### Current smoke validation
+
+On October 12, 2026, the credential-free Hugging Face path completed with three
+breeds and ten downloaded images per breed. Training, deployment, base
+inference, fine-tuned inference, and the latency notebook all completed. Both
+models classified the three held-out images correctly (`3/3` each), so this
+run validates mechanics but provides no evidence of quality improvement.
+
+Across three sequential requests per model, observed mean latency was about
+`3154 ms` for the base deployment and `2254 ms` for the fine-tuned deployment.
+This sample is far too small and order-sensitive to support a latency claim.
+
 | Aspect | Base Zero‑Shot | Fine-Tuned | CNN Baseline |
 |--------|----------------|-----------|--------------|
 | Accuracy (mean) | 73.67% | 82.67% (+9.0 pp) | 61.67% (-12.0 pp vs base) |
@@ -142,8 +159,8 @@ Training cost ≈ 5.616 * 27.5 = $155
 ### Prerequisites
 * Azure OpenAI resource (vision + fine-tuning access)
 * Python 3.10+
-* Kaggle account or direct Stanford Dogs access to fetch the dataset. Images
-  are not redistributed by this repository.
+* Network access to the Hugging Face Stanford Dogs mirror, or a Kaggle account.
+  Images are downloaded at runtime and are not redistributed by this repository.
 
 ### Environment
 ```
@@ -168,12 +185,17 @@ AZURE_OPENAI_BATCH_DEPLOYMENT_NAME_MODEL_VERSION="2024-08-06"
 
 # Fine-tuned deployment (after job completion)
 AZURE_OPENAI_FT_DEPLOYMENT_NAME="<your-finetuned-deployment-name>"
+
+# Optional smoke controls
+DOG_BREED_COUNT="3"
+DOG_IMAGES_PER_BREED="10"
+FT_EPOCHS="1"
 ```
 
 ### Dataset Down-Sampling Logic
-1. Enumerate breeds (deterministic ordering)
-2. Take first 50 images per breed
-3. Split 40 / 5 / 5 (train / val / test)
+1. Enumerate breeds deterministically
+2. Take `DOG_IMAGES_PER_BREED` images for each of `DOG_BREED_COUNT` breeds
+3. Split each breed approximately 80% / 10% / 10% (train / validation / test)
 4. Emit JSONL for fine-tuning + evaluation
 
 ### JSONL Schema (Azure OpenAI Vision FT)

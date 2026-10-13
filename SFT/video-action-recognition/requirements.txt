@@ -2,6 +2,7 @@ python-dotenv
 openai
 ipykernel
 kagglehub
+huggingface_hub
 ipywidgets
 pandas
 matplotlib

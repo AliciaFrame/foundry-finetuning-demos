@@ -1,8 +1,10 @@
 openai
 python-dotenv
+datasets
 pandas
 matplotlib
 pillow
+seaborn
 scikit-learn
 pydantic
 kaggle

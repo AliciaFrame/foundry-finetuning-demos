@@ -1,4 +1,4 @@
 azure-ai-evaluation>=1,<2
-azure-ai-projects>=2.2,<3
+azure-ai-projects>=2.3,<3
 azure-identity>=1.21,<2
 openai>=2,<3
