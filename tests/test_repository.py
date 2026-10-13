@@ -1,6 +1,9 @@
+import ast
 import importlib.util
 import json
 import re
+from fractions import Fraction
+from functools import lru_cache
 from pathlib import Path
 
 import nbformat
@@ -63,6 +66,22 @@ def test_jsonl_is_valid_and_complete():
         assert len(rows) == expected_count
 
 
+def test_math_rft_answers_are_well_formed():
+    demo = ROOT / "RFT/math-reasoning"
+    for path in [demo / "training_rft.jsonl", demo / "validation_rft.jsonl"]:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            answer = json.loads(line)["answer"]
+            depth = 0
+            for char in answer:
+                if char == "{":
+                    depth += 1
+                elif char == "}":
+                    depth -= 1
+                    assert depth >= 0, f"Unmatched closing brace in {answer!r}"
+            assert depth == 0, f"Unmatched opening brace in {answer!r}"
+            assert not answer.rstrip().endswith(("\\", "{"))
+
+
 def test_notebooks_are_clean():
     for path in ROOT.rglob("*.ipynb"):
         notebook = nbformat.read(path, as_version=4)
@@ -104,10 +123,15 @@ def test_no_sensitive_identifiers():
 def test_zava_notebook_has_standalone_artifacts():
     demo = ROOT / "RFT/zava-agentic-rft"
     required = [
-        demo / "agent/spec.yaml",
+        demo / "agent/README.md",
+        demo / "agent/eval.yaml",
+        demo / "agent/eval.jsonl",
+        demo / "agent/optimize_hosted_agent.py",
+        demo / "agent/.agent_configs/baseline/metadata.yaml",
+        demo / "agent/.agent_configs/baseline/instructions.md",
+        demo / "agent/.agent_configs/baseline/tools.json",
         demo / "results/optimize-2026-05-05/o4-mini/candidate_v1_systemprompt.txt",
-        demo
-        /         "results/optimize-2026-05-05/o4-mini/opt_historical.json",
+        demo / "results/optimize-2026-05-05/o4-mini/opt_historical.json",
         demo / "results/baseline-2026-05-05/o4-mini/opt_historical.json",
         demo
         / "results/baseline-2026-05-05/o4-mini-cand-v1/"
@@ -120,9 +144,44 @@ def test_zava_notebook_has_standalone_artifacts():
 
     notebook = (demo / "notebooks/e2e_demo.ipynb").read_text(encoding="utf-8")
     assert 'ROOT / \\"faos-agent\\"' not in notebook
+    assert 'ROOT / \\"agent\\" / \\"spec.yaml\\"' not in notebook
+    assert "cognitiveservices.azure.com/api/projects" not in notebook
+    assert "RUN_FAOS" not in notebook
     assert '"LIVE_EVALS = False' in notebook
-    assert '"RUN_FAOS   = False' in notebook
     assert '"SUBMIT_RFT = False' in notebook
+
+    parsed = json.loads(notebook)
+    for cell in parsed["cells"]:
+        if cell["cell_type"] == "code":
+            ast.parse("".join(cell["source"]))
+
+
+def test_zava_optimizer_assets_use_current_schema():
+    agent = ROOT / "RFT/zava-agentic-rft/agent"
+    rows = [
+        json.loads(line)
+        for line in (agent / "eval.jsonl").read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    assert len(rows) == 26
+    for row in rows:
+        assert isinstance(row["query"], str) and row["query"]
+        assert isinstance(row["criteria"], list) and row["criteria"]
+        assert "prompt" not in row
+        assert "groundTruth" not in row
+
+    tools = json.loads(
+        (agent / ".agent_configs/baseline/tools.json").read_text(encoding="utf-8")
+    )
+    names = {item["function"]["name"] for item in tools}
+    assert names == {
+        "get_order_details",
+        "get_fulfillment_status",
+        "check_resolution_policy",
+        "check_inventory",
+        "calculate_resolution",
+        "submit_resolution",
+    }
 
 
 def test_zava_grader_smoke():
@@ -163,6 +222,68 @@ def test_countdown_grader_smoke():
     invalid = {"output_json": {"expression": "1+2", "result": 3}}
     assert grader.grade(perfect, item) == 5
     assert grader.grade(invalid, item) == 0
+    for expression in ["1+2+3//4", "1+2+3%4", "1+2+3**4"]:
+        forbidden = {"output_json": {"expression": expression, "result": 7}}
+        assert grader.grade(forbidden, item) == 0
+
+
+def test_countdown_data_is_locally_generated():
+    demo = ROOT / "RFT/countdown"
+    for path in [demo / "demo.ipynb", demo / "demo_with_python_grader.ipynb"]:
+        notebook = path.read_text(encoding="utf-8")
+        assert "predibase/countdown" not in notebook
+        assert re.search(r'eval(?:run)?_[0-9a-f]{20,}', notebook) is None
+        assert "ast.FloorDiv" not in notebook
+        assert "ast.Mod" not in notebook
+        assert "ast.Pow" not in notebook
+        assert "wait_for_eval_runs" in notebook
+
+    def can_reach(numbers, target):
+        @lru_cache(maxsize=None)
+        def solve(state):
+            if len(state) == 1:
+                return state[0] == target
+            for left_index in range(len(state)):
+                for right_index in range(left_index + 1, len(state)):
+                    left, right = state[left_index], state[right_index]
+                    rest = [
+                        value
+                        for index, value in enumerate(state)
+                        if index not in {left_index, right_index}
+                    ]
+                    candidates = {
+                        left + right,
+                        left - right,
+                        right - left,
+                        left * right,
+                    }
+                    if right:
+                        candidates.add(left / right)
+                    if left:
+                        candidates.add(right / left)
+                    for candidate in candidates:
+                        next_state = tuple(sorted([*rest, candidate]))
+                        if solve(next_state):
+                            return True
+            return False
+
+        return solve(tuple(sorted(Fraction(number) for number in numbers)))
+
+    splits = []
+    for name in ["countdown_train_raw.jsonl", "countdown_valid_raw.jsonl"]:
+        rows = [
+            json.loads(line)
+            for line in (demo / "data" / name).read_text(encoding="utf-8").splitlines()
+        ]
+        keys = set()
+        for row in rows:
+            numbers = json.loads(row["nums"])
+            target = Fraction(int(row["target"]))
+            assert can_reach(numbers, target), row
+            keys.add((row["target"], tuple(sorted(numbers))))
+        assert len(keys) == len(rows)
+        splits.append(keys)
+    assert splits[0].isdisjoint(splits[1])
 
 
 def test_local_markdown_links():

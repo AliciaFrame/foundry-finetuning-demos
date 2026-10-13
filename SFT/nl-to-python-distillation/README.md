@@ -54,6 +54,8 @@ AZURE_PROJECT_ENDPOINT=https://<YOUR_RESOURCE>.services.ai.azure.com/api/project
 AZURE_SUBSCRIPTION_ID=<YOUR SUBSCRIPTION ID>
 AZURE_RESOURCE_GROUP=<YOUR RESOURCE GROUP>
 AZURE_ACCOUNT_NAME=<YOUR RESOURCE NAME>
+AZURE_GPT54_DEPLOYMENT=gpt-5.4
+AZURE_GPT41MINI_DEPLOYMENT=gpt-4.1-mini
 ```
 
 2. Set up a virtual environment and install dependencies:
@@ -95,7 +97,10 @@ Data Designer uses a pipeline architecture to generate training data:
 | `validation_data.jsonl` | Pre-built validation set (83 examples, chat messages format) |
 | `requirements.txt` | Python dependencies |
 
-> **Don't want to run data generation?** The included `training_data.jsonl` and `validation_data.jsonl` let you skip straight to Step 4 (upload & evaluate). Just comment out the Data Designer cells and load the JSONL files directly.
+> **Don't want to run data generation?** Run the setup cell, then skip the Data
+> Designer and split cells. The setup cell points `TRAIN_FILE` and `VAL_FILE` at
+> the included `training_data.jsonl` and `validation_data.jsonl`, so the upload
+> cell works without generated artifacts.
 
 The training set contains ten examples estimated above 4,096 tokens and uses
 two closely related system prompts. Confirm the selected fine-tuning model's

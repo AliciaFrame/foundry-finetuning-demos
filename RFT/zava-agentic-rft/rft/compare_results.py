@@ -8,8 +8,8 @@ Reads:
 
 Variants searched (in order, missing skipped):
 - o4-mini                 (rich Zava prompt baseline)
-- o4-mini-cand-v1         (FAOS candidate v1)
-- o4-mini-cand-v1-append  (rich + FAOS postscript)
+- o4-mini-cand-v1         (historical optimizer candidate v1)
+- o4-mini-cand-v1-append  (rich + historical optimizer postscript)
 - o4-mini-rft-s100-cand-v1
 - o4-mini-rft-s110-cand-v1
 - o4-mini-rft-zavav1pt70-cand-v1  (RFT s115 deployed, default RFT model)
@@ -135,8 +135,8 @@ def main():
         print(f"{label:<24} {row1:>16} {row2:>20} {row3:>16} {rlr:>22} {tok:>16}")
 
     print("\nLegend: score / passRate.")
-    print("  Row 1: task_adherence (FAOS LLM judge)")
-    print("  Row 2: 8 builtins (FAOS LLM judge)")
+    print("  Row 1: task_adherence (historical optimizer LLM judge)")
+    print("  Row 2: 8 builtins (historical optimizer LLM judge)")
     print("  Row 3: strict deterministic grader (must_contain/must_not_contain phrase lists)")
     print("  RL-rubric: rft/grader.py rolled out directly against the deployment")
     print("             (same scorer as RFT training; pass>=0.7)")

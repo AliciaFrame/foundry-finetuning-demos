@@ -25,6 +25,9 @@ repository. The original Azure AI Foundry MIT notice is retained in
 - **OpenR1-Math-220k** is licensed under Apache License 2.0. The included
   subset retains that license in
   [`RFT/math-reasoning/DATA_LICENSE`](RFT/math-reasoning/DATA_LICENSE).
+- **Countdown** rows in this repository are generated locally by
+  [`generate_data.py`](RFT/countdown/scripts/generate_data.py); no rows from the
+  unlicensed `predibase/countdown` dataset are redistributed.
 - **Stanford Dogs** images are not redistributed. Users must obtain the data
   from the original source and comply with its terms.
 - **ChartQA** data is not redistributed. The archived source associated its

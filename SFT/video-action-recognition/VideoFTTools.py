@@ -90,6 +90,22 @@ class VideoExtractor:
     A class to extract and process video frames.
     """
 
+    @staticmethod
+    def _load_font(font_size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
+        candidates = [
+            os.getenv("VIDEO_FRAME_FONT_PATH"),
+            "DejaVuSans.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        ]
+        for font_path in candidates:
+            if not font_path:
+                continue
+            try:
+                return ImageFont.truetype(font_path, font_size)
+            except OSError:
+                continue
+        return ImageFont.load_default()
+
     def __init__(self, uri: str):
         """
         Initialize the VideoExtractor with a video URI.
@@ -152,9 +168,8 @@ class VideoExtractor:
             timestamp = f"{minutes:02}:{seconds:02}:{milliseconds:03}"
             timestamp_text = f"video_time: {timestamp}"
 
-            font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"  # Update this path if necessary
             font_size = 16  # Font size in pixels
-            font = ImageFont.truetype(font_path, font_size)
+            font = self._load_font(font_size)
 
             # Create a new image with extra height for the text
             stripe_height = font_size + 4  # Height of the black stripe
@@ -219,9 +234,8 @@ class VideoExtractor:
             timestamp = f"{minutes:02}:{seconds:02}:{milliseconds:03}"
             timestamp_text = f"video_time: {timestamp}"
 
-            font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"  # Update this path if necessary
             font_size = 16  # Font size in pixels
-            font = ImageFont.truetype(font_path, font_size)
+            font = self._load_font(font_size)
 
             # Create a new image with extra height for the text
             stripe_height = font_size + 4  # Height of the black stripe

@@ -1,4 +1,4 @@
-"""Calibrate RFT pass_threshold for Zava + FAOS candidate v1 prompt.
+"""Calibrate RFT pass_threshold for Zava + historical optimized prompt.
 
 Runs N random validation scenarios through:
   o4-mini (deployed in our Foundry project)

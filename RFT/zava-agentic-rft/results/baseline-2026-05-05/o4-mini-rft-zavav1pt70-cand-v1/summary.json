@@ -1,5 +1,5 @@
 {
-  "spec": "spec.yaml",
+  "source": "historical-pre-release-optimizer",
   "results": [
     {
       "pass": 0.81,

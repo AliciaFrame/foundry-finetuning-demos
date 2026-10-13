@@ -19,18 +19,12 @@ def _eval(n):
         ast.Sub: lambda a, b: a - b,
         ast.Mult: lambda a, b: a * b,
         ast.Div: lambda a, b: a / b,
-        ast.FloorDiv: lambda a, b: a // b,
-        ast.Mod: lambda a, b: a % b,
-        ast.Pow: lambda a, b: a**b,
     }:
         return {
             ast.Add: lambda a, b: a + b,
             ast.Sub: lambda a, b: a - b,
             ast.Mult: lambda a, b: a * b,
             ast.Div: lambda a, b: a / b,
-            ast.FloorDiv: lambda a, b: a // b,
-            ast.Mod: lambda a, b: a % b,
-            ast.Pow: lambda a, b: a**b,
         }[type(n.op)](_eval(n.left), _eval(n.right))
 
     if isinstance(n, ast.UnaryOp) and type(n.op) in {

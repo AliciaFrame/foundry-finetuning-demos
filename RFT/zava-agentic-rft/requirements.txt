@@ -1,10 +1,12 @@
+azure-ai-agentserver-optimization>=1.0.0b1,<2
 azure-functions>=1.21,<2
 azure-ai-evaluation>=1.13,<2
+azure-ai-projects>=2.5.0,<3
 azure-identity>=1.21,<2
 fastapi>=0.115,<1
 matplotlib>=3.8,<4
 numpy>=2,<3
-openai>=2,<3
+openai>=3,<4
 pandas>=2,<3
-PyYAML>=6,<7
+python-dotenv>=1.0,<2
 requests>=2.32,<3

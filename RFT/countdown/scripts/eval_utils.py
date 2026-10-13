@@ -1,5 +1,6 @@
 import json
 import os
+import asyncio
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -332,18 +333,12 @@ def _eval(n):
         ast.Sub: lambda a, b: a - b,
         ast.Mult: lambda a, b: a * b,
         ast.Div: lambda a, b: a / b,
-        ast.FloorDiv: lambda a, b: a // b,
-        ast.Mod: lambda a, b: a % b,
-        ast.Pow: lambda a, b: a ** b,
     }:
         return {
             ast.Add: lambda a, b: a + b,
             ast.Sub: lambda a, b: a - b,
             ast.Mult: lambda a, b: a * b,
             ast.Div: lambda a, b: a / b,
-            ast.FloorDiv: lambda a, b: a // b,
-            ast.Mod: lambda a, b: a % b,
-            ast.Pow: lambda a, b: a ** b,
         }[type(n.op)](_eval(n.left), _eval(n.right))
 
     if isinstance(n, ast.UnaryOp) and type(n.op) in {
@@ -478,6 +473,38 @@ async def create_eval_run(eval_id, file_id, model_deployment=None, eval_run_name
         data_source=payload["data_source"]
         # metadata can be added here if needed
     )
+
+
+async def wait_for_eval_runs(
+    eval_id: str,
+    run_ids,
+    poll_interval: int = 10,
+    timeout: int = 3600,
+) -> None:
+    """Wait for evaluation runs to complete before reading their results."""
+    pending = set(run_ids)
+    terminal = {"completed", "failed", "cancelled", "canceled"}
+    elapsed = 0
+    while pending:
+        for run_id in list(pending):
+            run = await client.get_eval_run_sdk(eval_id, run_id)
+            status = str(run.get("status", "")).lower()
+            if status not in terminal:
+                continue
+            if status != "completed":
+                raise RuntimeError(
+                    f"Evaluation run {run_id} ended with status {status}."
+                )
+            pending.remove(run_id)
+        if not pending:
+            return
+        if elapsed >= timeout:
+            raise TimeoutError(
+                f"Evaluation runs did not complete within {timeout} seconds: "
+                f"{sorted(pending)}"
+            )
+        await asyncio.sleep(poll_interval)
+        elapsed += poll_interval
 
 
 # Main function to handle multiple deployments

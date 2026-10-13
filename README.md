@@ -13,7 +13,7 @@ training jobs or deploying models.
 | Demo | Level | What it teaches | Historical result |
 |---|---|---|---|
 | [Distilling sarcasm](SFT/distilling-sarcasm/) | Beginner | Teacher/student selection and behavioral distillation | `27%` to `83.84%` pass rate |
-| [Bug detection](SFT/bug-detection/) | Beginner | Text SFT with a deterministic task | Approximately `80%` to `90%` pass rate in the tracked run |
+| [Bug detection](SFT/bug-detection/) | Beginner | Text SFT with a deterministic task | Clean rerun required; prior percentages were not reproducible |
 | [NL-to-Python distillation](SFT/nl-to-python-distillation/) | Intermediate | Synthetic data generation and code distillation | Historical artifacts require a clean rerun |
 | [Image breed classification](SFT/image-breed-classification/) | Intermediate | Vision SFT versus zero-shot and CNN baselines | `73.67%` to `82.67%` accuracy |
 | [Chart analysis](SFT/chart-analysis/) | Intermediate | Visual question answering with ChartQA | Rerun required to publish a numeric comparison |
@@ -26,7 +26,7 @@ training jobs or deploying models.
 |---|---|---|---|
 | [Countdown](RFT/countdown/) | Beginner | Structured outputs and deterministic or endpoint graders | Mechanics sample; rerun required |
 | [Math reasoning](RFT/math-reasoning/) | Intermediate | Final-answer verification with OpenR1-Math | Rerun required |
-| [Zava agentic RFT](RFT/zava-agentic-rft/) | Advanced | Tool-use RFT, grader calibration, checkpoints, and independent evaluation | Mean reward `0.61` to `0.80` with prompt held fixed |
+| [Zava agentic RFT](RFT/zava-agentic-rft/) | Advanced | Current Agent Optimizer assets, tool-use RFT, grader calibration, checkpoints, and independent evaluation | Mean reward `0.61` to `0.80` with prompt held fixed |
 
 ## Repository principles
 

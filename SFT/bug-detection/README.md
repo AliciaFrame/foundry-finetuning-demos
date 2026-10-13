@@ -11,17 +11,16 @@
 1. **Baseline evaluation** — Measure the base model's bug detection ability before training
 2. **Fine-tuning** — Submit an SFT job with optimal hyperparameters (2 epochs, lr=0.8)
 3. **Evaluation** — Compare the fine-tuned model against both the base model and the teacher
-4. **ROI analysis** — See how the fine-tuned mini model beats the teacher on pass rate while costing 9x less
+4. **ROI analysis** — Compare quality and token pricing for the student and teacher
 
-## Key Results
+## Results
 
-| Model | Combined Score | Pass Rate | Input $/1M | Output $/1M |
-|-------|---------------|-----------|------------|-------------|
-| gpt-4.1-mini (base) | 8.87 | 85.7% | $0.40 | $1.60 |
-| **gpt-4.1-mini FT** | **9.15** | **96.4%** | **$0.40** | **$1.60** |
-| gpt-5.4 (teacher) | 9.29 | 89.3% | $2.50 | $15.00 |
-
-The fine-tuned model **beats the teacher on pass rate** (96.4% vs 89.3%) while costing **9x less** per token.
+The original published percentages were not accompanied by the evaluation rows
+that produced them, and the checked-in notebook evaluates ten examples. They
+are therefore not reproducible from this repository and have been removed.
+Run the notebook to produce a fresh base, fine-tuned, and teacher comparison;
+record the denominator, model versions, date, and current pricing with any
+result you publish.
 
 ## Prerequisites
 

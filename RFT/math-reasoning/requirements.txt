@@ -10,3 +10,4 @@ azure-mgmt-cognitiveservices
 
 # Core libraries
 python-dotenv
+datasets>=4.0,<5

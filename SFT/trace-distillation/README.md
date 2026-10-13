@@ -25,7 +25,11 @@ Pulling 720 hours of real traces from a deployed Zava-style Post-Purchase Resolu
 | Baseline `gpt-4.1-nano` | 7.38 | 60% | — |
 | Fine-tuned `gpt-4.1-nano` (3ep, lr=1.0) | **8.60** | **100%** | **+16.5%** |
 
-The `gpt-4.1-nano` student, fine-tuned on traces from a `gpt-4.1-mini` teacher agent, matches the teacher's tool selection on every test row — at ~10× lower cost per token.
+In the historical experiment, the `gpt-4.1-nano` student matched the teacher's
+first-turn tool selection on every test row. The evaluator compares ordered
+calls and arguments from the first assistant turn; it does not execute tools or
+score the complete multi-turn trajectory. Recheck current model pricing before
+making a cost claim.
 
 These historical results came from a small experiment and should be rerun
 before making a production decision.

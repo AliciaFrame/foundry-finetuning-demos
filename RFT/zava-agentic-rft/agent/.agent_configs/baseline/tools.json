@@ -1,0 +1,123 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_order_details",
+      "description": "Look up an order, its customer, line items, prices, and loyalty tier.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "description": "The order identifier, such as ORD-004."
+          }
+        },
+        "required": ["order_id"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_fulfillment_status",
+      "description": "Look up shipping and delivery status for every item in an order.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "description": "The order identifier, such as ORD-004."
+          }
+        },
+        "required": ["order_id"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "check_resolution_policy",
+      "description": "Determine the allowed resolution, return window, fees, and credits for one order item.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "description": "The order identifier."
+          },
+          "item_id": {
+            "type": "string",
+            "description": "The line-item identifier."
+          },
+          "reason": {
+            "type": "string",
+            "description": "The customer's reason for requesting a resolution."
+          }
+        },
+        "required": ["order_id", "item_id", "reason"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "check_inventory",
+      "description": "Check whether replacement inventory is available for a SKU.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string",
+            "description": "The product SKU."
+          }
+        },
+        "required": ["sku"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "calculate_resolution",
+      "description": "Calculate exact refund, fee, shipping-credit, and store-credit amounts for proposed item resolutions.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "description": "The order identifier."
+          },
+          "items": {
+            "type": "array",
+            "description": "Proposed item resolutions to calculate.",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": ["order_id", "items"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "submit_resolution",
+      "description": "Record the final resolution summary after all policy and amount checks are complete.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "description": "The order identifier."
+          },
+          "resolution_summary": {
+            "type": "string",
+            "description": "The complete final resolution to record."
+          }
+        },
+        "required": ["order_id", "resolution_summary"]
+      }
+    }
+  }
+]

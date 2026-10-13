@@ -10,10 +10,9 @@ During RFT training, every `eval_interval` steps the platform measures
 3. Averaging across all 57 examples
 
 That signal is what told us "step 115 hit 0.5844, the highest checkpoint."
-But it only exists *during* training. Once a checkpoint is deployed, we
-have no way to reproduce that score from inside FAOS / the agent layer
-(FAOS doesn't support python graders; the agent layer adds prompt
-overhead + multi-turn loop that diverges from the training rollouts).
+But it only exists *during* training. The pre-release May 2026 optimizer run
+used a different evaluator and agent-layer execution path, so its score was
+not comparable with the training reward.
 
 This script reproduces the validation-time signal against any deployment
 so we can ask:
@@ -21,7 +20,7 @@ so we can ask:
 - How does base o4-mini (no RFT) score? (Should reproduce ~0.303.)
 - How do s100 and s110 compare to s115 on the same metric?
 
-It calls the model directly (not through the FAOS agent wrapper) and
+It calls the model directly (not through the historical hosted-agent wrapper) and
 runs an agentic rollout: model -> tool call -> POST to lab tool endpoint
 -> feed result back -> final answer. Same shape as RFT training.
 

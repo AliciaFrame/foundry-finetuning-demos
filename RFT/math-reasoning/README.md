@@ -14,17 +14,17 @@ This cookbook uses the **OpenR1-Math-220k dataset**, which contains advanced mat
 
 ## Dataset Information
 
-**Source**: [OpenR1-Math-220k on Kaggle](https://www.kaggle.com/datasets/alejopaullier/openr1-math-220k) | [Hugging Face](https://huggingface.co/datasets/open-r1/OpenR1-Math-220k)
+**Source**: [OpenR1-Math-220k on Hugging Face](https://huggingface.co/datasets/open-r1/OpenR1-Math-220k)
 
 **Dataset Statistics**:
 - **Full dataset**: 220,000 mathematical reasoning problems (7 parquet files, 1.45 GB total)
-- **Source parquet**: train-00000-of-00007.parquet (13,391 problems with 27,614 verified reasoning traces)
-- **Training set**: 100 examples (curated subset for quick demonstrations)
-- **Validation set**: 10 examples (curated subset for quick demonstrations)
+- **Training set**: 100 examples (deterministic filtered subset)
+- **Validation set**: 10 examples (deterministic filtered subset)
 
 > **Important**:
 > - The RFT dataset contains processed data extracted from verified parquet files
 > - Each training example contains **prompts only** (system + user) and a ground truth answer
+> - Rows require at least two verified correct generations and well-formed answer braces
 
 
 **What the Data Contains**:
@@ -95,6 +95,7 @@ RFT in Microsoft Foundry supports the following models:
 - **rft_math_reasoning.ipynb**: Step-by-step notebook implementation
 - **training_rft.jsonl**: Training dataset (100 examples in RFT format)
 - **validation_rft.jsonl**: Validation dataset (10 examples in RFT format)
+- **prepare_data.py**: Reproducibly rebuilds both files from a pinned dataset revision
 
 ## Quick Start
 
@@ -108,6 +109,16 @@ pip install -r requirements.txt
 ### 2. Prepare the Dataset
 
 You can use the training and validation dataset as is from this directory or you can prepare your own dataset.
+
+To reproduce the bundled subset:
+
+```powershell
+python prepare_data.py
+```
+
+The script pins the OpenR1 revision, uses the canonical `answer` field, and
+rejects truncated or unbalanced LaTeX. This avoids the nested-brace truncation
+bug in the original sample's answer extraction.
 
 ### 3. Set Up Environment Variables
 
