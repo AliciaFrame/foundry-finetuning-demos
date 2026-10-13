@@ -19,7 +19,6 @@ end-to-end validation matrix and its blockers.
 | [Bug detection](SFT/bug-detection/) | Beginner | Text SFT with a deterministic task | 2026 smoke: mean `8.33` to `8.63`; pass rate unchanged at `80%` (n=10) |
 | [NL-to-Python distillation](SFT/nl-to-python-distillation/) | Intermediate | Synthetic data generation and code distillation | 2026 smoke: combined `8.25` to `8.75` (n=2; pipeline evidence only) |
 | [Image breed classification](SFT/image-breed-classification/) | Intermediate | Vision SFT versus zero-shot and CNN baselines | 2026 smoke: base and FT both `3/3`; historical full run `73.67%` to `82.67%` |
-| [Chart analysis](SFT/chart-analysis/) | Intermediate | Visual question answering with ChartQA | 2026 smoke: base `17/20`; FT `16/20`; no improvement |
 | [Video action recognition](SFT/video-action-recognition/) | Advanced | Video-frame SFT and evaluation | Live preprocessing verified; training blocked by people/face content policy |
 | [Trace distillation](SFT/trace-distillation/) | Advanced | Turning agent traces into tool-use SFT data | 2026 fixture smoke: `75%` to `100%` pass (n=4) |
 

@@ -17,7 +17,6 @@ EXPECTED_DEMOS = {
         "bug-detection",
         "nl-to-python-distillation",
         "image-breed-classification",
-        "chart-analysis",
         "video-action-recognition",
         "trace-distillation",
     },

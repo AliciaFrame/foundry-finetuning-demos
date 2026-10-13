@@ -13,7 +13,6 @@ repository. The original Azure AI Foundry MIT notice is retained in
 | Bug detection | Alicia Frame | `microsoft-foundry/fine-tuning` |
 | NL-to-Python distillation | Alicia Frame | `microsoft-foundry/fine-tuning` |
 | Image breed classification | `alevretmicrosoft` | `microsoft-foundry/fine-tuning` |
-| Chart analysis | Andreas Kopp | `microsoft-foundry/fine-tuning` |
 | Video action recognition | Andreas Kopp | `microsoft-foundry/fine-tuning` |
 | Trace distillation | Alicia Frame | `microsoft-foundry/fine-tuning` |
 | Countdown RFT | Jayesh Tanna; endpoint-grader material by Dave Voutila | `microsoft-foundry/fine-tuning` |
@@ -31,9 +30,6 @@ repository. The original Azure AI Foundry MIT notice is retained in
 - **Stanford Dogs** images are not redistributed. The image demo can download
   them from the `maurice-fp/stanford-dogs` Hugging Face mirror; the underlying
   Stanford Dogs/ImageNet image terms still apply.
-- **ChartQA** data is not redistributed. The archived source associated its
-  sample data with GPL-3.0; users should obtain data from the original project
-  and comply with its current terms.
 - **UCF101** videos and extracted frames are not redistributed. The video demo
   can download the Apache-2.0 `sayakpaul/ucf101-subset` package for smoke
   testing. Users must still cite the UCF101 dataset authors.

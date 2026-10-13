@@ -10,10 +10,9 @@ Follow the demos in this order:
    generation and code evaluation.
 4. [Image breed classification](image-breed-classification/) introduces
    multimodal fine-tuning.
-5. [Chart analysis](chart-analysis/) focuses on visual and logical reasoning.
-6. [Video action recognition](video-action-recognition/) expands vision SFT to
+5. [Video action recognition](video-action-recognition/) expands vision SFT to
    sampled video frames.
-7. [Trace distillation](trace-distillation/) turns agent telemetry into
+6. [Trace distillation](trace-distillation/) turns agent telemetry into
    tool-use training examples.
 
 Historical metrics are retained for context, but model availability and service
