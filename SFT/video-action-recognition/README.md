@@ -17,14 +17,14 @@ This Solution Accelerator provides reusable code to help you apply vision fine-t
 
 ## Current validation status
 
-On October 12, 2026, the Hugging Face smoke path downloaded and extracted the
-dataset, generated frames, uploaded and processed 30 training rows, and
-submitted the vision fine-tuning job. Azure rejected all 30 rows during
-preprocessing because the clips contain people; 25 rows also contained faces
-and one triggered CAPTCHA detection. The notebook path is functional through
-submission, but end-to-end training requires Modified Content Filtering
-approval on the target resource. The archived `99%` result has not been
-reproduced by this validation.
+On October 12-13, 2026, the Hugging Face smoke path was run against two Azure
+AI resources. Both runs downloaded and extracted the dataset, generated
+frames, uploaded and processed 30 training rows, and submitted the vision
+fine-tuning job. Azure rejected all 30 rows during preprocessing because the
+clips contain people; 25 rows also contained faces and one triggered CAPTCHA
+detection. The notebook path is functional through submission, but end-to-end
+training requires Modified Content Filtering approval on the target resource.
+The archived `99%` result has not been reproduced by this validation.
 
 > **Note:** By default, the Fine-Tuning API rejects images containing people and faces for AI safety reasons.
 You can apply to opt out of this limitation by submitting a request here: https://customervoice.microsoft.com/Pages/ResponsePage.aspx.
