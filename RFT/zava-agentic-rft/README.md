@@ -1,42 +1,51 @@
 # Zava Agentic RFT
 
 An end-to-end agentic reinforcement fine-tuning example for a fictional
-post-purchase resolution desk. The model must call `get_order`, select the
-correct action, calculate exact amounts, and cite policy.
+post-purchase resolution desk. The model calls `get_order`, selects the correct
+resolution, calculates exact amounts, and explains the applicable policy.
+
+## What the notebook does
+
+1. Evaluates the base `o4-mini` deployment on 57 held-out scenarios.
+2. Uploads 343 training rows and 57 validation rows.
+3. Submits a fresh tool-using RFT job with a Python partial-credit grader.
+4. Monitors training to completion.
+5. Deploys the fine-tuned model.
+6. Evaluates it with the same prompt, tool, scenarios, and grader used for the
+   baseline.
+
+The grader rewards action correctness, amount correctness, policy reasoning,
+and use of the `get_order` tool. The serialized grader is tested in isolation
+before submission so its sandbox dependencies are explicit.
 
 ## Result
 
-The same 57-row validation set and Python grader were used for all three
-stages:
+The end-to-end run trained on 343 scenarios, validated on 57 scenarios, and
+evaluated the base and fine-tuned deployments on all 57 held-out scenarios
+with the same prompt, tool, and grader.
 
-| Stage | Prompt | Model | Mean reward | Pass at 0.7 |
-|---|---|---|---:|---:|
-| Raw base | Rich Zava prompt | `o4-mini` | 0.30 | 9% |
-| Prompt optimized | Historical FAOS candidate v1 | `o4-mini` | 0.61 | 44% |
-| RFT checkpoint | Candidate v1 | RFT step 115 | **0.80** | **75%** |
+| Model | Mean reward | Pass rate at 0.8 |
+|---|---:|---:|
+| Base `o4-mini` | 0.647 | 37% |
+| Fine-tuned `o4-mini` | 0.846 | 77% |
 
-The RFT-only comparison holds the prompt fixed: `0.61` to `0.80`. Offline
-replay over all 57 rows preserved the training checkpoint ordering
-(`step 115 > step 110 > step 100 > base`). These results were recorded in May
-2026 with a pre-release FAOS API and should be treated as an experiment
-receipt, not a timeless model or current-service claim.
+The fine-tuned model improved mean reward by 0.199 and pass rate by 40
+percentage points on this evaluation. The scenarios and grader are compact
+instructional assets; use a larger independent set before selecting a model
+for production.
 
 ## Contents
 
-- `notebooks/e2e_demo.ipynb`: narrative walkthrough. Outputs are stripped;
-  committed JSON files contain the evidence.
-- `rft/grader.py`: four-dimensional partial-credit grader.
-- `rft/calibrate.py`: calibrates the pass threshold on the base model.
-- `rft/submit.py`: uploads data and submits an RFT job.
-- `rft/grade_with_rl_rubric.py`: independently replays a deployment.
-- `rft/data/`: 343 fictional training scenarios and 57 held-out scenarios.
-- `rft/results/`: sanitized historical result artifacts.
-- `agent/`: current Agent Optimizer baseline, evaluation data, `azd`
-  configuration, Python SDK client, and fictional tool implementation.
-- `results/`: sanitized historical FAOS and comparison artifacts consumed by
-  the notebook. These are evidence, not current API examples.
-- `tool-service/`: self-contained Azure Function/FastAPI implementation for
-  the fictional `get_order` tool.
+| Path | Purpose |
+|---|---|
+| `notebooks/e2e_demo.ipynb` | Complete baseline, training, deployment, and evaluation walkthrough |
+| `rft/data/` | 343 fictional training scenarios and 57 held-out scenarios |
+| `rft/grader.py` | Four-dimensional partial-credit grader |
+| `rft/calibrate.py` | Base-model grader calibration |
+| `rft/submit.py` | Command-line RFT submission |
+| `rft/monitor.py` | Training-event monitor |
+| `tool-service/` | Azure Function/FastAPI implementation of `get_order` |
+| `agent/` | Optional current Agent Optimizer inputs for the hosted-agent prompt |
 
 ## Setup
 
@@ -45,34 +54,33 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 Copy-Item .env.example .env
+az login
 ```
 
-The notebook defaults to artifact-only mode and can reproduce the historical
-tables without Azure credentials. It no longer submits agent-optimization jobs:
-the old direct FAOS HTTP endpoint has been retired from the example.
-
-For a new optimization run, follow [`agent/README.md`](agent/README.md). The
-preferred path is the current `azd ai agent optimize` workflow with
-`agent/eval.yaml` and `.agent_configs/baseline/`. A supported Python SDK client
-is also included for projects where the dataset and evaluator are registered.
-Agent Optimizer is a limited preview that requires allow-listed access and is
-not recommended for production workloads.
-
-To rerun the RFT portion, authenticate with `az login`, fill in `.env`, deploy
-`tool-service`, and set `ZAVA_TOOL_ENDPOINT` to its `/tool/get_order` URL.
+Deploy `tool-service` and configure:
 
 ```powershell
-python rft/calibrate.py --n 30
-python rft/submit.py --pass-threshold 0.8
-python rft/monitor.py
+$env:AZURE_AI_PROJECT_ENDPOINT = "https://<resource>.services.ai.azure.com/api/projects/<project>"
+$env:ZAVA_TOOL_BASE_URL = "https://<function-app>.azurewebsites.net"
+$env:AZURE_SUBSCRIPTION_ID = "<subscription-id>"
+$env:AZURE_RESOURCE_GROUP = "<resource-group>"
+$env:AZURE_AOAI_ACCOUNT = "<resource-name>"
+$env:RFT_BASE_MODEL = "o4-mini"
+$env:RFT_DEPLOYMENT = "zava-rft"
 ```
 
-RFT and agentic tool support vary by model, region, and service version. Check
-current Foundry availability before incurring training cost. The original run
-took approximately six hours and cost roughly USD 200.
+Run [`notebooks/e2e_demo.ipynb`](notebooks/e2e_demo.ipynb).
+
+`ZAVA_RFT_JOB_ID` can resume a job created by an interrupted notebook
+execution. Evaluation progress is cached under the ignored `run/` directory so
+a transient tool or authentication failure does not discard completed rows.
+
+The optional [`agent/`](agent/) folder follows the current Agent Optimizer
+workflow. Agent Optimizer is a limited preview and is not required for the RFT
+notebook.
 
 ## Privacy
 
-All checked-in people, orders, and results are fictional. Do not substitute
-production customer records or traces without consent, redaction, retention,
-and access-control review.
+All checked-in customers, orders, products, and scenarios are fictional. Do
+not replace them with production records without consent, redaction,
+retention, and access-control review.

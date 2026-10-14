@@ -2,7 +2,7 @@
 
 Configuration:
   - Base model:        o4-mini (RFT-eligible, GA per Skills/SKILL.md)
-  - System prompt:     historical optimized candidate (present in bundled data)
+  - System prompt:     fixed prompt included in the bundled data
   - Training/val data: 343 train + 57 val (from Zava-Ignite-RL-Lab rft_v7)
   - Tool endpoint:     ZAVA_TOOL_BASE_URL environment variable
   - Grader:            grader.py (Python, 4-dimensional partial credit)

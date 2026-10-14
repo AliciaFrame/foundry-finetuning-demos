@@ -15,6 +15,6 @@ Follow the demos in this order:
 6. [Trace distillation](trace-distillation/) turns agent telemetry into
    tool-use training examples.
 
-Historical metrics are retained for context, but model availability and service
-behavior change. Reproduce the baseline and fine-tuned evaluation before using
-any result for a production decision.
+Each README reports the result produced by its end-to-end run. The compact
+evaluations are designed to verify the workflow; rerun with a larger,
+independent test set before making a production decision.

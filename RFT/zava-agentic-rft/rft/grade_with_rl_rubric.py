@@ -20,7 +20,7 @@ so we can ask:
 - How does base o4-mini (no RFT) score? (Should reproduce ~0.303.)
 - How do s100 and s110 compare to s115 on the same metric?
 
-It calls the model directly (not through the historical hosted-agent wrapper) and
+It calls the model directly through the OpenAI-compatible project endpoint and
 runs an agentic rollout: model -> tool call -> POST to lab tool endpoint
 -> feed result back -> final answer. Same shape as RFT training.
 

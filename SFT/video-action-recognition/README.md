@@ -1,114 +1,96 @@
-# Fine-Tuning GPT-4.1 for Action Recognition in Video Clips
+# Video Motion Recognition
 
-This Solution Accelerator demonstrates how to use Azure OpenAI GPT-4.1 vision fine-tuning to improve the model's performance in detecting human activities in video clips. The project utilizes the [UCF101 - Action Recognition](https://www.kaggle.com/datasets/matthewjansen/ucf101-action-recognition) dataset from Kaggle, a comprehensive video dataset featuring 101 distinct human action categories such as "playing guitar," "surfing," and "knitting." It contains 13,320 video clips, each labeled with a single action category.
+Fine-tune a vision model to classify motion from frames sampled across short
+video clips.
 
-The notebook defaults to the Apache-2.0
-[`sayakpaul/ucf101-subset`](https://huggingface.co/datasets/sayakpaul/ucf101-subset)
-archive for a credential-free smoke run. Set `VIDEO_DATA_SOURCE=kaggle` to use
-the larger Kaggle package. Videos and extracted frames are not redistributed by
-this repository.
+The default path downloads non-human CIFAR-10 vehicle images and turns them
+into deterministic horizontal-pan, vertical-pan, and zoom clips. The classes
+use neutral labels (`motion_alpha`, `motion_beta`, and `motion_gamma`) so the
+model must learn the task mapping instead of relying on descriptive label
+names.
 
-__Acknowledgements:__
+UCF101 remains available as an optional data source for Azure resources
+approved to fine-tune images containing people.
 
-- Dataset: https://www.crcv.ucf.edu/research/data-sets/ucf101/
-- Citation: https://arxiv.org/abs/1212.0402
+## What the notebook does
 
-This Solution Accelerator provides reusable code to help you apply vision fine-tuning for video analysis in various use cases.
+1. Downloads or generates the video dataset.
+2. Samples timestamped frames from each clip.
+3. Creates multimodal fine-tuning JSONL.
+4. Trains and deploys a vision model.
+5. Evaluates the base and fine-tuned deployments on the same held-out clips.
 
-## Current validation status
+## Result
 
-On October 12-13, 2026, the Hugging Face smoke path was run against two Azure
-AI resources. Both runs downloaded and extracted the dataset, generated
-frames, uploaded and processed 30 training rows, and submitted the vision
-fine-tuning job. Azure rejected all 30 rows during preprocessing because the
-clips contain people; 25 rows also contained faces and one triggered CAPTCHA
-detection. The notebook path is functional through submission, but end-to-end
-training requires Modified Content Filtering approval on the target resource.
-The archived `99%` result has not been reproduced by this validation.
+The end-to-end run used 90 training clips, 30 validation clips, and 30
+held-out test clips across three balanced motion classes.
 
-> **Note:** By default, the Fine-Tuning API rejects images containing people and faces for AI safety reasons.
-You can apply to opt out of this limitation by submitting a request here: https://customervoice.microsoft.com/Pages/ResponsePage.aspx.
-Make sure to select the Modified Content Filtering option for Inferencing and Fine Tuning in question 14.
+| Model | Accuracy |
+|---|---:|
+| Base `gpt-4.1-mini` | 26.7% (8/30) |
+| Fine-tuned `gpt-4.1` | 33.3% (10/30) |
 
+The fine-tuned deployment completed every request, but predicted
+`motion_beta` for all 30 test clips. The run therefore verifies the full video
+fine-tuning pipeline but does not demonstrate a useful classifier. Increase
+dataset diversity and evaluate stronger temporal representations before using
+this approach for a real action-recognition system.
 
-## Get started
+## Setup
 
-Create and activate a virtual Python environment for running the code.
-The following example shows how to create a Conda environment named `video-ft`:
-
-```bash
-conda create -n video-ft python=3.12
-conda activate video-ft
-```
-
-Install the required packages. Navigate to the `Video_FT_Action_Recognition` folder and execute the following:
-
-```bash
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+az login
 ```
 
-__Required Services:__
-- An Azure OpenAI resource with a vision-capable base deployment and access to
-  vision fine-tuning
+Set the resource configuration:
 
-__Optional Services:__
-- Azure AI Foundry for managing fine-tuning in the UI
-- An Azure Storage Account
-
-Rename the environment file template `.env.template` to `.env`, or set the
-variables in your process environment.
-
-For a compact validation run:
-
-```env
-VIDEO_DATA_SOURCE=huggingface
-VIDEO_BASE_DEPLOYMENT=gpt-4o
-VIDEO_FT_MODEL=gpt-4o-2024-08-06
-VIDEO_CLASS_COUNT=3
-VIDEO_TRAIN_SAMPLES=30
-VIDEO_VAL_SAMPLES=12
-VIDEO_TEST_SAMPLES=6
-VIDEO_FRAMES=2
-VIDEO_FT_EPOCHS=1
+```powershell
+$env:AZURE_OPENAI_ENDPOINT = "https://<resource>.services.ai.azure.com"
+$env:AZURE_SUBSCRIPTION_ID = "<subscription-id>"
+$env:AZURE_RESOURCE_GROUP = "<resource-group>"
+$env:AZURE_ACCOUNT_NAME = "<resource-name>"
+$env:VIDEO_BASE_DEPLOYMENT = "gpt-4.1"
+$env:VIDEO_FT_MODEL = "gpt-4.1-2025-04-14"
 ```
 
-Navigate to the video fine-tuning notebook:
+The notebook uses `DefaultAzureCredential` when
+`AZURE_OPENAI_API_KEY` is not set.
 
-- [Fine-Tuning GPT-4.1 for Action Recognition in Video Clips](fine-tune-aoai-gpt4-1-action-detection.ipynb)
+The default configuration is:
 
-__Note:__ If you encounter the following error: `ImportError: libGL.so.1: cannot open shared object file: No such file or directory`
-In this case, your system is missing the shared `libGL.so.1` library which is required by OpenCV.
-On a Ubuntu system, you can install the missing library as follows:
-```bash
-sudo apt update
-sudo apt install libgl1-mesa-glx
+```powershell
+$env:VIDEO_DATA_SOURCE = "synthetic"
+$env:VIDEO_CLASS_COUNT = "3"
+$env:VIDEO_TRAIN_SAMPLES = "90"
+$env:VIDEO_VAL_SAMPLES = "30"
+$env:VIDEO_TEST_SAMPLES = "30"
+$env:VIDEO_FRAMES = "3"
+$env:VIDEO_FT_EPOCHS = "3"
 ```
 
-## Troubleshooting
+Run
+[`fine-tune-aoai-gpt4-1-action-detection.ipynb`](fine-tune-aoai-gpt4-1-action-detection.ipynb).
 
-### Common Issues
+`VIDEO_REUSE_FT_JOB_ID` can resume a job created by an interrupted execution
+without paying for duplicate training.
 
-**ImportError: libGL.so.1 not found**
-- Install the missing library: `sudo apt install libgl1-mesa-glx` (Ubuntu)
-- On other systems, install the OpenGL library for your distribution
+## Optional UCF101 path
 
-**Content Filter Triggered (Images with People)**
-- The Fine-Tuning API rejects images containing people by default
-- Submit a request to opt out: https://customervoice.microsoft.com/Pages/ResponsePage.aspx
-- Select "Modified Content Filtering" for Inferencing and Fine Tuning
+Set `VIDEO_DATA_SOURCE=huggingface` for the compact
+[`sayakpaul/ucf101-subset`](https://huggingface.co/datasets/sayakpaul/ucf101-subset)
+archive or `VIDEO_DATA_SOURCE=kaggle` for the larger Kaggle package. UCF101
+contains people and generally requires Modified Content Filtering approval for
+vision fine-tuning.
 
-**Authentication Error**
-- Verify `.env` contains correct API key and endpoint
-- Run `az login` to refresh Azure credentials
-- Ensure your Azure OpenAI resource has GPT-4.1 deployed
+Original notebook contribution: Andreas Kopp. UCF101:
+[dataset](https://www.crcv.ucf.edu/research/data-sets/ucf101/) and
+[paper](https://arxiv.org/abs/1212.0402).
 
-**Training Job Fails**
-- Verify video frames are properly extracted and encoded
-- Check that JSONL format matches the expected schema
-- Ensure images don't exceed size limits
-- The resource must be approved for fine-tuning images that contain people;
-  otherwise Azure may reject UCF101 training examples by policy
+## Limitations
 
-**Quota Exceeded**
-- Request additional quota in Azure Portal → Azure OpenAI → Quotas
-- Try a different Azure region with available capacity
+The generated motion dataset is a compact instructional task, not a benchmark
+for general video understanding. Use real domain data and a larger independent
+test set before drawing production conclusions.

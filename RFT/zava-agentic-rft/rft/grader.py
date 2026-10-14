@@ -81,7 +81,7 @@ def get_grader_source() -> str:
     This is the artifact uploaded to the OpenAI RFT API as the reward grader,
     and the same string you'd register as a Foundry custom code-based evaluator.
     """
-    return inspect.getsource(grade)
+    return "import re\n\n" + inspect.getsource(grade)
 
 
 # Backwards-compatible alias — older callers (rft/submit.py, notebook §6) imported

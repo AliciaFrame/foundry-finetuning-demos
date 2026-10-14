@@ -1,8 +1,8 @@
-"""Calibrate RFT pass_threshold for Zava + historical optimized prompt.
+"""Calibrate the Zava RFT pass threshold.
 
 Runs N random validation scenarios through:
   o4-mini (deployed in our Foundry project)
-  + candidate v1 system prompt (the optimized prompt we'll RFT)
+  + the system prompt bundled with the RFT dataset
   + the `get_order` endpoint configured by ZAVA_TOOL_BASE_URL
 
 Then scores with the same Python grader we'll use during RFT, and prints the
@@ -62,9 +62,17 @@ def make_client() -> OpenAI:
 def call_tool(name: str, args: dict) -> str:
     url = f"{TOOL_URL}/tool/{name}"
     payload = {"arguments": json.dumps(args), "call_id": "c", "id": "f", "trace_id": "t"}
-    r = requests.post(url, json=payload, timeout=30)
-    r.raise_for_status()
-    return r.json().get("output", json.dumps(r.json()))
+    for attempt in range(5):
+        try:
+            response = requests.post(url, json=payload, timeout=120)
+            response.raise_for_status()
+            body = response.json()
+            return body.get("output", json.dumps(body))
+        except requests.RequestException:
+            if attempt == 4:
+                raise
+            time.sleep(2 ** attempt)
+    raise RuntimeError("Tool request retry loop exited unexpectedly")
 
 
 def run_agent(client: OpenAI, messages: list[dict], model: str = MODEL, max_turns: int = 8):

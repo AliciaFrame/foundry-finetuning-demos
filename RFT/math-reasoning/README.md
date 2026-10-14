@@ -131,21 +131,18 @@ AZURE_SUBSCRIPTION_ID=<your-subscription-id>
 AZURE_RESOURCE_GROUP=<your-resource-group>
 AZURE_AOAI_ACCOUNT=<your-foundry-account-name>
 MODEL_NAME=<your-base-model-name>
-
-# Optional: reuse a matching completed job instead of submitting a costly rerun
-REUSE_RFT_JOB_ID=<completed-job-id>
+BASE_MODEL_DEPLOYMENT=<your-base-deployment-name>
+MATH_RFT_DEPLOYMENT=<new-fine-tuned-deployment-name>
 ```
 
 ### 4. Run the Notebook
 
 Open `rft_math_reasoning.ipynb` and follow the step-by-step instructions.
 
-### Current validation status
-
-On October 12, 2026, the notebook reused a matching completed RFT job through
-`REUSE_RFT_JOB_ID`, deployed its model, and completed live inference. This
-validates job retrieval, deployment, authentication, and inference; it is not a
-new training run or a model-quality benchmark.
+The notebook submits a new RFT job, deploys the completed model, and evaluates
+the base and fine-tuned deployments on all ten validation problems.
+Set `MATH_RFT_JOB_ID` only to resume a job created by an interrupted execution
+of the same notebook.
 
 ## Dataset Format
 
@@ -195,18 +192,22 @@ The grader returns:
 
 This binary reward signal guides the model to learn effective reasoning strategies that produce correct final answers.
 
-## Expected Outcomes
+## Result
 
-The original notebook did not preserve a complete base-versus-fine-tuned
-result. Before publishing a performance claim, rerun the held-out evaluation
-and record the exact model version, checkpoint, date, and grader.
+The end-to-end run trained on 100 examples, validated on 10 examples, and
+evaluated the base and fine-tuned deployments on the same 10 validation
+problems:
 
-After a successful run, inspect whether the model:
+| Model | Exact final-answer accuracy |
+|---|---:|
+| Base `o4-mini` | 60% (6/10) |
+| Fine-tuned `o4-mini` | 60% (6/10) |
 
-- Generate detailed step-by-step mathematical reasoning chains with clear intermediate steps
-- Solve college-level and competition mathematics problems across diverse domains
-- Produce properly formatted answers with `\boxed{}` notation for grader verification
-- Demonstrate significantly improved performance on multi-hop mathematical reasoning compared to the base model
+The fine-tuned model produced properly formatted reasoning responses and the
+complete upload, RFT, deployment, and evaluation pipeline succeeded, but this
+run did not improve exact-answer accuracy. The ten-row evaluation is suitable
+for an end-to-end check, not a model-quality claim. Use a larger independent
+test set before selecting a checkpoint for production.
 
 
 ## Additional Resources

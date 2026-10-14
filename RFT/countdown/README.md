@@ -5,8 +5,7 @@ The model must use every supplied number exactly once and emit a structured
 expression and result. Correctness can be checked automatically, making the
 task a compact introduction to RFT.
 
-Originally contributed by Jayesh Tanna. The optional endpoint-grader example
-was contributed by Dave Voutila.
+Originally contributed by Jayesh Tanna.
 
 ## Setup
 
@@ -24,27 +23,19 @@ AZURE_API_KEY="YOUR_AZURE_OPENAI_API_KEY_HERE"
 AZURE_API_ENDPOINT="https://<resource>.services.ai.azure.com"
 COUNTDOWN_FT_DEPLOYMENT="<deployment-created-from-the-completed-rft-job>"
 COUNTDOWN_BASE_DEPLOYMENTS="o4-mini,gpt-4.1-mini"
-COUNTDOWN_GRADER_DEPLOYMENT="gpt-4.1-mini"
 COUNTDOWN_DEPLOYMENT_CAPACITY="50"
 ```
 
 The endpoint must be the resource root; the helper clients add `/openai/v1`.
-The notebooks now wait for uploaded files and training to finish, then create
-the `COUNTDOWN_FT_DEPLOYMENT` automatically. The model-based grader supports
-only specific grader model families; use a supported deployment such as
-`gpt-4.1-mini`.
+The notebook waits for uploaded files and training to finish, then creates the
+`COUNTDOWN_FT_DEPLOYMENT` automatically.
 
-Open `demo_with_python_grader.ipynb` for the preferred inline-grader path.
-The older `demo.ipynb` demonstrates a model-based grader. Both notebooks cover
-data preparation, base-model evaluation, RFT submission, and checkpoint
-evaluation.
+Open `demo_with_python_grader.ipynb` to run data preparation, baseline
+evaluation, RFT submission, checkpoint deployment, and held-out evaluation.
 
 For a compact live run, set `COUNTDOWN_EVAL_RECORDS`,
 `COUNTDOWN_TRAIN_RECORDS`, and `COUNTDOWN_VALID_RECORDS`. Small smoke runs
 validate mechanics but are not meaningful model-quality benchmarks.
-
-The [`endpoint-grader/`](endpoint-grader/) directory contains an optional Azure
-Function implementation for environments that require a hosted grader.
 
 ## Data
 
@@ -60,27 +51,15 @@ python scripts/generate_data.py
 The notebooks use these local files directly. Regeneration is deterministic
 unless you pass a different `--seed`.
 
-## Results
+## Result
 
-The archived run did not preserve a reliable final base-versus-checkpoint
-table.
-
-On October 13, 2026, the compact Python-grader path completed end to end using
-20 training rows, 50 validation rows, and 20 evaluation rows. After obsolete
-fine-tuned deployments were removed, the completed RFT job deployed and both
-evaluations finished without request errors at capacity 50. The base `o4-mini`
-deployment passed 100% and the fine-tuned checkpoint passed 95%; this tiny run
-validates the mechanics but does not demonstrate a quality improvement.
-
-The model-grader variant again passed data preparation and submission with a
-supported `gpt-4.1-mini` grader. Azure exhausted its internal retries and ended
-the job with HTTP 500 (`A system error was encountered`), reproducing the
-earlier service-side training failure rather than a local grader or data-format
-error.
+The compact run used 20 training rows, 50 validation rows, and 20 held-out
+evaluation rows. The base `o4-mini` deployment passed 100% and the fine-tuned
+checkpoint passed 95%. The workflow completed without request errors at
+deployment capacity 50, but this small run did not improve task quality.
 
 Treat the sample as a mechanics walkthrough until a larger held-out evaluation
-records the exact model, checkpoint, grader threshold, date, cost, and pass
-rate.
+records the exact model, checkpoint, grader threshold, cost, and pass rate.
 
 RFT model, region, grader, and API support changes over time. Check current
 Microsoft Foundry documentation before submitting a paid run.

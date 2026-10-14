@@ -43,11 +43,11 @@ For a lower-cost smoke run, set `SARCASM_RECORDS`, `SARCASM_BASE_MODELS`,
 The notebook now trains one OpenAI student; the provider-specific Ministral
 branch from the original prototype is intentionally omitted.
 
-## Current smoke result
+## Result
 
-A live run on 2026-10-12 used 50 factual prompts, selected 14 responses above
-the distillation cutoff, and trained on 11 rows with 3 validation rows. On ten
-held-out prompts, the fine-tuned `gpt-4o-mini` deployment scored 5.0 average
+The run used 50 factual prompts, selected 14 responses above the distillation
+cutoff, and trained on 11 rows with 3 validation rows. On ten held-out prompts,
+the fine-tuned `gpt-4o-mini` deployment scored 5.0 average
 with an 80% pass rate; an unfine-tuned run scored 5.2 average with a 70% pass
 rate. The pass-rate improvement and slightly lower mean conflict, so this small
 run validates the workflow but does not establish a clear quality win.

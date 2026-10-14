@@ -8,6 +8,7 @@ pandas
 matplotlib
 opencv-python
 azure-identity
+azure-mgmt-cognitiveservices
 scikit-learn
 seaborn
 azure-storage-blob

@@ -1,150 +1,91 @@
-# Traces → SFT Distillation
+# Trace Distillation
 
-This demo fine-tunes a small student model (`gpt-4.1-nano`) to mimic a larger
-hosted agent's tool-using behavior using traces from your Foundry agent. The
-repository includes a sanitized synthetic trace fixture for deterministic
-testing; it does not include production customer traces.
+Fine-tune a smaller model to reproduce the first-turn tool-calling behavior of
+a Microsoft Foundry hosted agent.
 
-## What it shows
+The notebook:
 
-1. **Pull** real conversation traces from a deployed Foundry agent via the `foundry-traces` recipe of the Data Generation API, or query its Application Insights resource directly when the Foundry worker cannot cross a private endpoint
-2. **Transform** the raw export into Azure-FT-ready JSONL (5 fixes the Foundry export currently requires for tool-using agents — all applied inline in the notebook)
-3. **Score** the base student on a held-out test set using **structural tool-call comparison**
-4. **Submit** one fine-tuning job (winning hyperparameters: 3 epochs, lr=1.0)
-5. **Monitor** training to completion
-6. **Deploy** the fine-tuned model
-7. **Evaluate** it on the same test set and report the lift
+1. Exports live GenAI spans from Application Insights or Foundry Data
+   Generation.
+2. Converts traces into valid tool-use fine-tuning rows.
+3. Splits the rows into training, validation, and test sets.
+4. Evaluates the base student.
+5. Trains and deploys the student model.
+6. Evaluates the fine-tuned deployment on the same held-out rows.
 
-Evaluation is driven by the **Foundry evaluations SDK** (`azure-ai-evaluation`) with a custom tool-call structural evaluator.
+## Result
 
-## Result on the included Zava retail agent
+The live run exported 14 tool-using conversations and split them into 11
+training, 1 validation, and 2 test rows.
 
-Pulling 720 hours of real traces from a deployed Zava-style Post-Purchase Resolution Desk agent (gpt-4.1-mini behind it, ~100 conversations across 5 sessions) and distilling into `gpt-4.1-nano`:
+| Model | Structural score | Pass rate |
+|---|---:|---:|
+| Base `gpt-4.1-mini` | 10.0/10 | 100% |
+| Fine-tuned `gpt-4.1-mini` | 10.0/10 | 100% |
 
-| Model | Combined | Pass Rate | Lift |
-|-------|----------|-----------|------|
-| Baseline `gpt-4.1-nano` | 7.38 | 60% | — |
-| Fine-tuned `gpt-4.1-nano` (3ep, lr=1.0) | **8.60** | **100%** | **+16.5%** |
-
-In the historical experiment, the `gpt-4.1-nano` student matched the teacher's
-first-turn tool selection on every test row. The evaluator compares ordered
-calls and arguments from the first assistant turn; it does not execute tools or
-score the complete multi-turn trajectory. Recheck current model pricing before
-making a cost claim.
-
-These historical results came from a small experiment and should be rerun
-before making a production decision.
-
-### Current fixture-backed smoke validation
-
-On October 12, 2026, the downstream path completed against the included
-sanitized fixture with `gpt-4.1-mini`: transform, base evaluation, training,
-deployment, and fine-tuned evaluation all ran. On four held-out first-turn
-examples, the structural score moved from `8.5` to `10.0` and pass rate from
-`75%` to `100%`. This tiny, synthetic sample validates the pipeline only.
-
-The Foundry Data Generation worker could not read one private-link-protected
-Application Insights resource (`AppInsightsReadWithoutPrivateLink`). The
-notebook now supports a direct, RBAC-authenticated Application Insights query
-with `APPLICATIONINSIGHTS_RESOURCE_ID`, so an operator running on an authorized
-network can export the same live GenAI spans without routing the Foundry worker
-through that private endpoint.
-
-### Current live trace validation
-
-On October 13, 2026, the direct Application Insights path exported 14 fresh
-tool-using conversations from a live hosted agent. The notebook transformed
-all 14 rows, split them into 11 train / 1 validation / 2 test rows, completed
-fine-tuning and deployment, and evaluated both deployments without request
-failures. The base and fine-tuned `gpt-4.1-mini` deployments each scored
-10.0/10 with a 100% pass rate on the two held-out rows. This confirms the live
-end-to-end path; the test set is far too small to establish quality lift.
+The full live pipeline completed successfully, but the two-row test set was
+too small and too easy to demonstrate quality lift. The evaluator compares the
+ordered first-turn tool calls and arguments; it does not execute tools or
+score the complete multi-turn trajectory.
 
 ## Prerequisites
 
-- An Azure AI Foundry project with a **deployed hosted agent** that has historical traces in App Insights. If you don't have one yet:
-  - Use any existing agent (any hosted Foundry agent emits traces automatically)
-  - Or run `fixtures/push_prompts.py` against your agent to populate trace history
-- One **student** model deployment that supports fine-tuning (e.g. `gpt-4.1-nano`, `gpt-4.1-mini`)
-- Azure CLI (`az login`) for authentication and deployment
-- Python 3.11+ with:
+- A Microsoft Foundry project with a deployed hosted agent and Application
+  Insights.
+- A student model that supports supervised fine-tuning.
+- Azure CLI authentication.
+- Python 3.11+.
 
-```bash
-pip install openai>=2.0 azure-ai-projects>=2.3.0 azure-identity>=1.21 azure-monitor-query>=1.4 azure-ai-evaluation>=1.0
+Install dependencies:
+
+```powershell
+pip install -r requirements.txt
 ```
 
-## Files in this folder
+Configure the project and deployment:
+
+```powershell
+$env:AZURE_AI_PROJECT_ENDPOINT = "https://<resource>.services.ai.azure.com/api/projects/<project>"
+$env:OPENAI_BASE_URL = "https://<resource>.services.ai.azure.com/openai/v1"
+$env:AZURE_OPENAI_API_KEY = "<key>"
+$env:AZURE_SUBSCRIPTION_ID = "<subscription-id>"
+$env:AZURE_RESOURCE_GROUP = "<resource-group>"
+$env:AZURE_ACCOUNT_NAME = "<resource-name>"
+$env:FOUNDRY_AGENT_NAME = "<agent-name>"
+$env:FOUNDRY_AGENT_VERSION = "<agent-version>"
+```
+
+Choose one trace source:
+
+1. Set `TRACE_INPUT_FILE` to a reviewed JSONL export.
+2. Set `APPLICATIONINSIGHTS_RESOURCE_ID` to query Application Insights
+   directly with Azure RBAC.
+3. Leave both unset to use the Foundry Data Generation API.
+
+Then run [`notebook.ipynb`](notebook.ipynb).
+
+## Files
 
 | File | Purpose |
-|------|---------|
-| `notebook.ipynb` | End-to-end runnable walkthrough |
-| `scripts/export_app_insights_traces.py` | Direct RBAC-authenticated export fallback for private-link-protected Application Insights resources |
-| `fixtures/push_prompts.py` | Optional standalone script that pushes diverse retail prompts through any hosted agent (use this before the notebook if your agent has no trace history yet) |
-| `fixtures/sample_agent_traces.jsonl` | Sanitized synthetic tool-use traces for exercising the transform, training, deployment, and evaluation path without production trace access |
-| `fixtures/zava_system_prompt.md` | Sample system prompt for the Zava resolution-desk agent (replace with your own) |
-| `fixtures/zava_tools.json` | Sample tool catalog (OpenAI chat-completions format) — replace with your own |
+|---|---|
+| `notebook.ipynb` | End-to-end trace export, SFT, deployment, and evaluation |
+| `scripts/export_app_insights_traces.py` | Direct RBAC-authenticated Application Insights exporter |
+| `fixtures/push_prompts.py` | Generates agent traffic when trace history is empty |
+| `fixtures/sample_agent_traces.jsonl` | Sanitized synthetic traces for local pipeline testing |
+| `fixtures/zava_system_prompt.md` | Example system prompt |
+| `fixtures/zava_tools.json` | Example OpenAI-format tool catalog |
 
-## Run it
+## Why traces need transformation
 
-```bash
-export AZURE_AI_PROJECT_ENDPOINT="https://<resource>.services.ai.azure.com/api/projects/<project>"
-export OPENAI_BASE_URL="https://<resource>.services.ai.azure.com/openai/v1"
-export AZURE_OPENAI_API_KEY="<key>"
-export AZURE_SUBSCRIPTION_ID="<subscription-id>"
-export AZURE_RESOURCE_GROUP="<resource-group>"
-export AZURE_ACCOUNT_NAME="<resource-name>"
-export FOUNDRY_AGENT_NAME="<your-hosted-agent>"
-export FOUNDRY_AGENT_VERSION="<version>"
+Current trace exports can contain overlapping snapshots, incomplete
+conversations, literal `"null"` content, adjacent assistant tool-call turns,
+and missing system prompts or tool definitions. The notebook normalizes these
+cases before upload and validates the resulting message sequence.
 
-# Optional direct-query fallback. Use the full ARM resource ID of the
-# Application Insights component connected to the Foundry project.
-export APPLICATIONINSIGHTS_RESOURCE_ID="/subscriptions/<subscription-id>/resourceGroups/<resource-group>/providers/microsoft.insights/components/<name>"
+## Privacy
 
-# (Optional) populate trace history first if your agent has none:
-python fixtures/push_prompts.py \
-    --agent-name <your-hosted-agent> \
-    --agent-version <version> \
-    --num-prompts 500 \
-    --project-endpoint $AZURE_AI_PROJECT_ENDPOINT
-
-# Wait ~90 seconds for traces to land in App Insights, then:
-jupyter notebook notebook.ipynb
-```
-
-Full run is ~30–50 minutes depending on FT queue depth.
-
-The notebook chooses its trace source in this order:
-
-1. `TRACE_INPUT_FILE`, when you already have a reviewed JSONL export
-2. Direct Application Insights query when `APPLICATIONINSIGHTS_RESOURCE_ID` is set
-3. Foundry Data Generation API otherwise
-
-The direct-query identity needs permission to query the Application Insights
-component and network access to its ingestion/query path. If neither live path
-is available, set `TRACE_INPUT_FILE=fixtures/sample_agent_traces.jsonl` for a
-fixture-backed pipeline smoke test.
-
-## Privacy and safety
-
-Agent traces can contain prompts, tool arguments, tool outputs, identifiers,
+Agent traces may contain prompts, tool arguments, tool outputs, identifiers,
 and customer data. Obtain consent, apply redaction and retention controls, and
-review the transformed JSONL before upload. Never commit exported production
-traces. The direct Application Insights export does not apply the Data
-Generation service's `redact_private_content` option, so redact its output
-before training whenever traces can contain private data.
-
-## Why the transform step exists
-
-The Foundry traces export currently emits chat JSONL with several issues that Azure FT preprocessing rejects:
-
-1. **Overlapping snapshots** — Each LangGraph node invocation gets its own span; the worker stitches them into one messages list, so one row contains N overlapping snapshots of the same conversation
-2. **Fragment rows** — When the customer simulator ends right after the agent asks a clarifying question, you get 2-msg rows with no assistant tool_calls (no SFT signal)
-3. **content="null"** — Assistant tool-call rows have `content` as the literal string `"null"` instead of JSON null. Azure FT rejects rows where content is present alongside tool_calls — the field must be **omitted** entirely
-4. **Consecutive assistant tool_call turns** — Sometimes two adjacent assistant spans each issue one tool call. Azure FT requires tool replies immediately after each assistant turn; the fix is to merge consecutive `asst(tc)` turns into one assistant message with parallel tool_calls
-5. **Missing system prompt + tools array** — The trace export does not currently emit the system message or the tools array at the row level; FT preprocessing for tool-using models needs both
-
-The notebook's 5 inline transform functions apply all five fixes. These should improve as Foundry's export matures — the notebook's transforms are idempotent so it's safe to keep them either way.
-
-## Bring your own agent
-
-Replace `AGENT_NAME` / `AGENT_VERSION` and the two fixture files with your agent's system prompt + tool catalog.
+review every generated row before upload. Never commit production traces. The
+direct Application Insights exporter does not apply the Data Generation
+service's private-content redaction.

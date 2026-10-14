@@ -4,10 +4,6 @@ This directory contains the current Microsoft Foundry Agent Optimizer inputs
 for the Zava hosted-agent experiment. The optimizer is a limited preview; it
 requires allow-listed access and is not recommended for production workloads.
 
-The May 2026 files under `../results/` are historical FAOS receipts. They use
-an older service contract and are retained only to explain the recorded
-experiment. Do not copy their direct HTTP pattern into new code.
-
 ## Contents
 
 - `.agent_configs/baseline/`: current baseline configuration loaded by
@@ -18,7 +14,7 @@ experiment. Do not copy their direct HTTP pattern into new code.
 - `optimize_hosted_agent.py`: supported Python SDK path for a registered
   Foundry dataset and evaluator.
 - `zava_tools.py` and `data/zava_db.json`: deterministic fictional tool
-  implementations and records used by the original hosted agent.
+  implementations and records for a hosted agent.
 
 ## Preferred standalone `azd` workflow
 

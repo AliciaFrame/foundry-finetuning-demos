@@ -15,9 +15,7 @@
 
 ## Results
 
-The original published percentages were not accompanied by their evaluation
-rows and remain excluded. A clean live run on 2026-10-12 produced this
-ten-example smoke result:
+The end-to-end run produced this ten-example result:
 
 | Model | Mean combined score | Pass rate at 7 |
 |---|---:|---:|

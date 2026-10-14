@@ -33,6 +33,11 @@ repository. The original Azure AI Foundry MIT notice is retained in
 - **UCF101** videos and extracted frames are not redistributed. The video demo
   can download the Apache-2.0 `sayakpaul/ucf101-subset` package for smoke
   testing. Users must still cite the UCF101 dataset authors.
-- Synthetic Zava customers, orders, products, and results are fictional.
+- **CIFAR-10** images are downloaded from the University of Toronto and are
+  not redistributed. The default video demo uses only the airplane,
+  automobile, ship, and truck classes. See the
+  [CIFAR-10 dataset page](https://www.cs.toronto.edu/~kriz/cifar.html) for
+  attribution and terms.
+- Synthetic Zava customers, orders, and products are fictional.
 
 Third-party package licenses continue to apply to installed dependencies.

@@ -119,7 +119,7 @@ def test_no_sensitive_identifiers():
             assert pattern.search(text) is None, f"{pattern.pattern} found in {path}"
 
 
-def test_zava_notebook_has_standalone_artifacts():
+def test_zava_notebook_has_standalone_inputs():
     demo = ROOT / "RFT/zava-agentic-rft"
     required = [
         demo / "agent/README.md",
@@ -129,25 +129,20 @@ def test_zava_notebook_has_standalone_artifacts():
         demo / "agent/.agent_configs/baseline/metadata.yaml",
         demo / "agent/.agent_configs/baseline/instructions.md",
         demo / "agent/.agent_configs/baseline/tools.json",
-        demo / "results/optimize-2026-05-05/o4-mini/candidate_v1_systemprompt.txt",
-        demo / "results/optimize-2026-05-05/o4-mini/opt_historical.json",
-        demo / "results/baseline-2026-05-05/o4-mini/opt_historical.json",
-        demo
-        / "results/baseline-2026-05-05/o4-mini-cand-v1/"
-        "opt_historical.json",
-        demo
-        / "results/baseline-2026-05-05/o4-mini-rft-zavav1pt70-cand-v1/"
-        "summary.json",
+        demo / "rft/data/zava_v1_train.jsonl",
+        demo / "rft/data/zava_v1_val.jsonl",
+        demo / "rft/grader.py",
+        demo / "tool-service/function_app.py",
     ]
     assert all(path.exists() for path in required)
 
     notebook = (demo / "notebooks/e2e_demo.ipynb").read_text(encoding="utf-8")
-    assert 'ROOT / \\"faos-agent\\"' not in notebook
-    assert 'ROOT / \\"agent\\" / \\"spec.yaml\\"' not in notebook
-    assert "cognitiveservices.azure.com/api/projects" not in notebook
-    assert "RUN_FAOS" not in notebook
-    assert 'LIVE_EVALS = env_flag(\\"LIVE_EVALS\\")' in notebook
-    assert 'SUBMIT_RFT = env_flag(\\"SUBMIT_RFT\\")' in notebook
+    assert "fine_tuning.jobs.create" in notebook
+    assert "ZAVA_RFT_JOB_ID" in notebook
+    assert "RFT_DEPLOYMENT" in notebook
+    assert "fine_tuned_result = evaluate" in notebook
+    assert "artifact" not in notebook.lower()
+    assert "historical" not in notebook.lower()
 
     parsed = json.loads(notebook)
     for cell in parsed["cells"]:
@@ -201,6 +196,10 @@ def test_zava_grader_smoke():
     bad = {"output_text": "No.", "output_tools": []}
     assert grader.grade(perfect, item) > grader.grade(bad, item)
     assert 0 <= grader.grade(perfect, item) <= 1
+
+    isolated = {}
+    exec(grader.get_grader_source(), isolated)
+    assert isolated["grade"](perfect, item) == grader.grade(perfect, item)
 
 
 def test_zava_tool_service_smoke():
@@ -278,7 +277,7 @@ def test_trace_export_converts_genai_parts():
 
 def test_countdown_data_is_locally_generated():
     demo = ROOT / "RFT/countdown"
-    for path in [demo / "demo.ipynb", demo / "demo_with_python_grader.ipynb"]:
+    for path in [demo / "demo_with_python_grader.ipynb"]:
         notebook = path.read_text(encoding="utf-8")
         assert "predibase/countdown" not in notebook
         assert re.search(r'eval(?:run)?_[0-9a-f]{20,}', notebook) is None
@@ -369,7 +368,9 @@ def test_notebook_execution_repairs_are_present():
     ).read_text(encoding="utf-8")
     assert "sayakpaul/ucf101-subset" in video
     assert 'filter=\\\"data\\\"' in video
-    assert 'f\\\"Bearer {token}\\\"' in video
+    assert "CognitiveServicesManagementClient" in video
+    assert "get_bearer_token_provider" in video
+    assert "VIDEO_REUSE_FT_JOB_ID" in video
     assert "uploaded.status == \\\"processed\\\"" in video
 
     sarcasm = (
@@ -392,19 +393,19 @@ def test_notebook_execution_repairs_are_present():
     assert "Deployment failed" in trace
     assert "was not inferenceable" in trace
 
-    for countdown_path in [
-        ROOT / "RFT/countdown/demo.ipynb",
-        ROOT / "RFT/countdown/demo_with_python_grader.ipynb",
-    ]:
-        countdown = countdown_path.read_text(encoding="utf-8")
-        assert "REUSE_COUNTDOWN_JOB_ID" in countdown
-        assert "DefaultAzureCredential" in countdown
+    countdown = (
+        ROOT / "RFT/countdown/demo_with_python_grader.ipynb"
+    ).read_text(encoding="utf-8")
+    assert "REUSE_COUNTDOWN_JOB_ID" in countdown
+    assert "DefaultAzureCredential" in countdown
 
     math = (
         ROOT / "RFT/math-reasoning/rft_math_reasoning.ipynb"
     ).read_text(encoding="utf-8")
-    assert "get_bearer_token_provider" in math
-    assert "REUSE_RFT_JOB_ID" in math
+    assert "fine_tuning.jobs.create" in math
+    assert "BASE_MODEL_DEPLOYMENT" in math
+    assert "Fine-tuned accuracy" in math
+    assert "REUSE_RFT_JOB_ID" not in math
 
     nl_to_python = (
         ROOT

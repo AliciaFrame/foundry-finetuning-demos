@@ -12,3 +12,8 @@ __pycache__/
 .ipynb_checkpoints/
 run/
 results/job.json
+RFT/zava-agentic-rft/rft/results/job.json
+SFT/video-action-recognition/data/
+SFT/video-action-recognition/*-train.jsonl
+SFT/video-action-recognition/*-val.jsonl
+SFT/video-action-recognition/*-eval-results-*-entries.csv

@@ -14,9 +14,8 @@ Creating training data for code generation is expensive. NVIDIA Data Designer au
 
 ## Results
 
-An end-to-end smoke run on 2026-10-12 generated 50 examples, retained 44
-after quality filtering, trained for one epoch, and evaluated all models on the
-same two held-out rows:
+The end-to-end run generated 50 examples, retained 44 after quality filtering,
+trained for one epoch, and evaluated all models on the same two held-out rows:
 
 | Model | Correctness | Conciseness | Combined | Pass@8 |
 |-------|-------------|-------------|----------|--------|
